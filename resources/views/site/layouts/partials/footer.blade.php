@@ -25,7 +25,9 @@
                     <div class="logo-widget">
                         <div class="footer-logo">
                             <figure>
-                                <a href="index.php"><img src="images/footer/logo.png" alt="Positive Impact" height="78"></a>
+                                <a href="{{ route('home') }}">
+                                    <img src="images/footer/logo.png" alt="Positive Impact" height="78">
+                                </a>
                             </figure>
                         </div>
                         <div class="text">
@@ -39,10 +41,10 @@
                     <div class="link-widget">
                         <h4>Quick Links</h4>
                         <ul class="list">
-                            <li><a href="about.html">About Us</a></li>
-                            <li><a href="causes-details.html">Programmes</a></li>
-                            <li><a href="gallery.html">Videos</a></li>
-                            <li><a href="single-volunteer.html">Blogs</a></li>
+                            <li><a href="{{ route('home') }}">About Us</a></li>
+                            <li><a href="{{ route('home') }}">Programmes</a></li>
+                            <li><a href="{{ route('home') }}">Videos</a></li>
+                            <li><a href="{{ route('home') }}">Blogs</a></li>
                         </ul>
                     </div>
                 </div>

@@ -781,7 +781,7 @@
     <!-- event & donation section end -->
          
 
-@endsection 
+@endsection  
 
 
 @section('page_css')
