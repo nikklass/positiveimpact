@@ -5,7 +5,7 @@
 	
 	#social-dialog, #fb-dialog, #twitter-dialog, #report-dialog, #email-dialog, #terms-dialog, #review-order-dialog, #order-items-dialog {
 		background: white;
-		padding: 20px 20px;
+		padding: 20px 20px; 
 		text-align: left;
 		max-width: 600px;
 		margin: 30px auto;

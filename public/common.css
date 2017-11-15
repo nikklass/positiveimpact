@@ -4,7 +4,7 @@ body.big-store {
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
-  background-size: cover;
+  background-size: cover; 
 }
 .margin-top-30{margin-top: 30px;}
 .margin-btm-30{margin-bottom: 30px;}
