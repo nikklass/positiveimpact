@@ -14,8 +14,8 @@ website:   	http://www.themepunch.com
 
 @font-face {
   font-family: 'revicons';
-  src: url('../fonts/revicons.woff?5510888') format('woff'),
-       url('../fonts/revicons.ttf?5510888') format('truetype');
+  src: url('../fonts/revicons.woff') format('woff'),
+       url('../fonts/revicons.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }

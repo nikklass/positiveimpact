@@ -25,6 +25,10 @@
 
         <link rel="stylesheet" href="{{ asset('css/app.css') }}">
 
+        <link rel="stylesheet" href="{{ asset('css/flaticon.css') }}">
+
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
         <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500,700,900' rel='stylesheet' type='text/css'>

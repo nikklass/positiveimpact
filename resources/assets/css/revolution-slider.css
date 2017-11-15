@@ -3063,8 +3063,8 @@ img.tp-slider-alternative-image {
 
 @font-face {
     font-family: 'revicons';
-    src: url('../fonts/revicons.eot?5510888');
-    src: url('../fonts/revicons.eot?5510888#iefix') format('embedded-opentype'), url('../fonts/revicons.woff?5510888') format('woff'), url('../fonts/revicons.ttf?5510888') format('truetype'), url('../fonts/revicons.svg?5510888#revicons') format('svg');
+    src: url('../fonts/revicons.eot');
+    src: url('../fonts/revicons.eot') format('embedded-opentype'), url('../fonts/revicons.woff') format('woff'), url('../fonts/revicons.ttf') format('truetype'), url('../fonts/revicons.svg') format('svg');
     font-weight: normal;
     font-style: normal
 }
