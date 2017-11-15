@@ -18313,7 +18313,7 @@ tp-caption.Team-Thumb,
  */
 /* 2D TRANSITIONS */
 /* Grow */
-.hvr-grow {
+.hvr-grow { 
   display: inline-block;
   vertical-align: middle;
   -webkit-transform: translateZ(0);
