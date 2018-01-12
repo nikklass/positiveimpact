@@ -46,7 +46,7 @@
                             <li><a href="{{ route('site.about') }}">About Us</a></li>
                             <li><a href="{{ route('site.programs') }}">Programs</a></li>
                             <li><a href="{{ route('site.videos') }}">Videos</a></li>
-                            <li><a href="{{ route('site.blog') }}">Blog</a></li>
+                            <li><a href="{{ route('site.contacts') }}">Contact Us</a></li>
                         </ul>
                     </div>
                 </div>
