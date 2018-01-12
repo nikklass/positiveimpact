@@ -43,7 +43,7 @@
                             </p>
                         </div>
 
-                        <button class="btn-one donate-box-btn">Donate Now</button>
+                        <a class="btn-one donate-box-btn" href="{{ route('site.donate') }}">Donate Now</a>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">

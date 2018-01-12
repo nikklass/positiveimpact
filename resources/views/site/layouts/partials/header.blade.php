@@ -199,7 +199,7 @@
                             </div>
                         </nav>
                         <div class="info-box">
-                            <button class="donate-box-btn btn-one">Donate</button>
+                            <a href="{{ route('site.donate') }}" class="donate-box-btn btn-one">Donate</a>
                         </div>
                     </div>
                 </div>

@@ -42,25 +42,25 @@
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <p>Your Name*</p>
-                                    <input type="text" name="fname" placeholder="">
+                                    <input type="text" name="name" placeholder="">
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <p>Email*</p>
-                                    <input type="text" name="fname" placeholder="">
+                                    <input type="email" name="email" placeholder="">
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
                                     <p>Address*</p>
-                                    <input type="text" name="fname" placeholder="">
+                                    <input type="text" name="address" placeholder="">
                                 </div>
                             </div>
                             <div class="col-md-6 col-sm-6 col-xs-12">
                                 <div class="form-group">
-                                    <p>Phn Num*</p>
-                                    <input type="text" name="fname" placeholder="">
+                                    <p>Phone Num*</p>
+                                    <input type="text" name="phone" placeholder="">
                                 </div>
                             </div>
                         </div>

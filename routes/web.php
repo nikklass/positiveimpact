@@ -8,6 +8,7 @@ Route::get('/programs', 'Web\HomeController@programs')->name('site.programs');
 Route::get('/videos', 'Web\HomeController@videos')->name('site.videos');
 Route::get('/blog', 'Web\HomeController@blog')->name('site.blog');
 Route::get('/contacts', 'Web\HomeController@contacts')->name('site.contacts');
+Route::get('/donate', 'Web\HomeController@donate')->name('site.donate');
 
 //clubs routes...
 Route::resource('/clubs', 'Web\Clubs\ClubsController');
