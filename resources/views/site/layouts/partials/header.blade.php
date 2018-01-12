@@ -100,9 +100,9 @@
                                     </li>
                                     <li class="dropdown"><a href="{{ route('site.programs') }}">Programs</a>
                                         <ul>
-                                            <li><a href="#">Mentorship</a></li>
-                                            <li><a href="#">Workshops</a></li>
-                                            <li><a href="#">Training</a></li>
+                                            <li><a href="{{ route('site.programs') }}">Mentorship</a></li>
+                                            <li><a href="{{ route('site.programs') }}">Workshops</a></li>
+                                            <li><a href="{{ route('site.programs') }}">Training</a></li>
                                         </ul>
                                     </li>
                                     <!-- <li class="dropdown"><a href="#">Blogs</a>
@@ -168,14 +168,14 @@
                                     <li>
                                         <a href="{{ route('site.about') }}">About</a>
                                     </li>
-                                    <li class="dropdown"><a href="#">Programs</a>
+                                    <li class="dropdown"><a href="{{ route('site.programs') }}">Programs</a>
                                         <ul>
-                                            <li><a href="#">Mentorship</a></li>
-                                            <li><a href="#">ICT Development</a></li>
-                                            <li><a href="#">Leadership</a></li>
+                                            <li><a href="{{ route('site.programs') }}">Mentorship</a></li>
+                                            <li><a href="{{ route('site.programs') }}">Workshops</a></li>
+                                            <li><a href="{{ route('site.programs') }}">Training</a></li>
                                         </ul>
                                     </li>
-                                    <li class="dropdown"><a href="#">Videos</a>
+                                    <li class="dropdown"><a href="{{ route('site.videos') }}">Videos</a>
                                         <!-- <ul>
                                             <li><a href="events.php">Our Events</a></li>
                                             <li><a href="events-details.html">Events Details</a></li>
@@ -189,12 +189,11 @@
                                             <li><a href="error.html">Error Page</a></li>
                                         </ul>
                                     </li> -->
-                                    <li class="dropdown"><a href="blog">Blog</a>
-                                        <ul>
-                                            <li><a href="blog">Our Blog</a></li>
-                                            <li><a href="single-blog">Blog Single</a></li>
+                                    <li class="dropdown">
+                                        <a href="{{ route('site.blog') }}">Blog</a>
                                     </li>
-                                    <li><a href="contacts">Contact Us</a>
+                                    <li>
+                                        <a href="{{ route('site.contacts') }}">Contact Us</a>
                                     </li>
                                 </ul>
                             </div>
