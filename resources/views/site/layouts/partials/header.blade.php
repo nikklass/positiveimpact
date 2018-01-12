@@ -92,13 +92,14 @@
                             </div>
                             <div class="navbar-collapse collapse clearfix">
                                 <ul class="navigation clearfix">
-                                    <li class="current">
+                                    <li class="{{ setActive('/') }}">
                                         <a href="{{ route('site.home') }}">Home</a>
                                     </li>
-                                    <li>
+                                    <li class="{{ setActive('about') }}">
                                         <a href="{{ route('site.about') }}">About</a>
                                     </li>
-                                    <li class="dropdown"><a href="{{ route('site.programs') }}">Programs</a>
+                                    <li class="dropdown {{ setActive('programs') }}">
+                                        <a href="{{ route('site.programs') }}">Programs</a>
                                         <ul>
                                             <li><a href="{{ route('site.programs') }}">Mentorship</a></li>
                                             <li><a href="{{ route('site.programs') }}">Workshops</a></li>
@@ -111,7 +112,8 @@
                                             <li><a href="events-details.php">Events Details</a></li>
                                         </ul>
                                     </li> -->
-                                    <li class="dropdown"><a href="{{ route('site.videos') }}">Videos</a>
+                                    <li class="dropdown {{ setActive('videos') }}">
+                                        <a href="{{ route('site.videos') }}">Videos</a>
                                         <!-- <ul>
                                             <li><a href="team.html">Our Team</a></li>
                                             <li><a href="single-volunteer.html">Single Volunteer</a></li>
@@ -119,13 +121,16 @@
                                             <li><a href="error.html">Error Page</a></li>
                                         </ul> -->
                                     </li>
-                                    <li class="dropdown"><a href="{{ route('site.blog') }}">Blog</a>
+                                    <li class="dropdown {{ setActive('blog') }}">
+                                        <a href="{{ route('site.blog') }}">Blog</a>
                                         <!-- <ul>
                                             <li><a href="blog">Our Blog</a></li>
                                             <li><a href="single-blog">Blog Single</a></li>
                                         </ul> -->
                                     </li>
-                                    <li><a href="{{ route('site.contacts') }}">Contact Us</a></li>
+                                    <li class="{{ setActive('contacts') }}">
+                                        <a href="{{ route('site.contacts') }}">Contact Us</a>
+                                    </li>
                                 </ul>
                             </div>
                         </nav>

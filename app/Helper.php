@@ -13,6 +13,18 @@ use Propaganistas\LaravelPhone\PhoneNumber;
 use GeoIP as GeoIP;
 
 
+/**
+ * Return nav-here if current path begins with this path.
+ *
+ * @param string $path
+ * @return string
+ */
+function setActive($path)
+{
+    return Request::is($path . '*') ? ' current' :  '';
+}
+
+
 //get offers
 function getOffers($category_id='', $limit, $offer_type='') {
 
