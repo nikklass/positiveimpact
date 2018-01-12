@@ -87,7 +87,7 @@
                         @if ($site_settings->company_location)
                         <div class="single-item">
                             <div class="icon-box"><i class="fa fa-home" aria-hidden="true"></i></div>
-                            <div class="text">{{ $site_settings->company_location }},</div>
+                            <div class="text">{!! $site_settings->company_location !!},</div>
                         </div>
                         @endif
 
@@ -102,7 +102,7 @@
                         <div class="single-item">
                             <div class="icon-box"><i class="fa fa-envelope-o" aria-hidden="true"></i></div>
                             <div class="mail">
-                                <a href="#">{{ $site_settings->contact_email }}</a>
+                                <a href="#">{!! $site_settings->contact_email !!}</a>
                             </div>
                         </div>
                         @endif
