@@ -71,19 +71,28 @@
                 <div class="title"><p>We reply to all emails within 48 Hrs</p></div>
             </div>
             <div class="contact-form">
-                <form id="contact-form" name="contact_form" class="default-form" action="inc/sendmail.php" method="post">
+
+                <form id="contact-form" name="contact_form" class="default-form" method="POST" action="{{ route('site.contacts.store') }}">
+
+                    {{ csrf_field() }}
+
                     <div class="row">
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <input type="text" name="form_name" value="" placeholder="Your Name" required="">
-                            <input type="email" name="form_email" value="" placeholder="Your Email" required="">
-                            <input type="text" name="form_phone" value="" placeholder="Phone Number" required="">
+                            <input type="text" name="name" value="" placeholder="Your Name" required="">
+                            <input type="email" name="email" value="" placeholder="Your Email" required="">
+                            <input type="text" name="phone" value="" placeholder="Phone Number" required="">
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <textarea placeholder="Message" name="form_message" required=""></textarea>
+                            <textarea placeholder="Message" name="message" required=""></textarea>
                         </div>
                     </div>
-                    <button type="submit" class="btn-one" data-loading-text="Please wait...">Send Message</button>
+
+                    <button type="submit" class="btn-one" data-loading-text="Please wait...">
+                        Send Message
+                    </button>
+
                 </form>
+
             </div>
         </div>
     </section>

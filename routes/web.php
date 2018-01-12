@@ -7,8 +7,12 @@ Route::get('/about', 'Web\HomeController@about')->name('site.about');
 Route::get('/programs', 'Web\HomeController@programs')->name('site.programs');
 Route::get('/videos', 'Web\HomeController@videos')->name('site.videos');
 Route::get('/blog', 'Web\HomeController@blog')->name('site.blog');
-Route::get('/contacts', 'Web\HomeController@contacts')->name('site.contacts');
+
 Route::get('/donate', 'Web\HomeController@donate')->name('site.donate');
+
+Route::get('/contacts', 'Web\CommentController@create')->name('site.contacts');
+Route::post('/contacts', 'Web\CommentController@store')->name('site.contacts.store');
+//Route::resource('/contacts', 'Web\HomeController@contacts');
 
 //clubs routes...
 Route::resource('/clubs', 'Web\Clubs\ClubsController');

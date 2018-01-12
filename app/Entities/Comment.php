@@ -8,30 +8,20 @@ use Illuminate\Database\Eloquent\Model;
 class Comment extends Model
 {
     
-    protected $appends = ['user'];
-
     protected $fillable = [
-        'content', 'ip', 'user_agent', 'user_id', 'post_id'
+        'name', 'message', 'email', 'phone'
     ];
 
-    /*
-    relation between comment and post*/
-    public function post() {
-        return $this->belongsTo(Post::class);
-    }
-
-    /*
-    relation between comment and user*/
-    public function user() {
-        return $this->belongsTo(User::class);
-    }
-
-    public function getUserAttribute()
+    //start convert dates to local dates
+    public function getCreatedAtAttribute($value)
     {
-        $user_id = $this->user_id;
-        $user = User::find($user_id);
-        
-        return $user;
+        return Carbon::parse($value)->timezone(getLocalTimezone());
     }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->timezone(getLocalTimezone());
+    }
+    //end convert dates to local dates
     
 }

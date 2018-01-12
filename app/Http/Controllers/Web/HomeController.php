@@ -73,11 +73,6 @@ class HomeController extends Controller
         return view('site.blog');
     }
 
-    public function contacts()
-    {
-        return view('site.contacts');
-    }
-
     public function donate()
     {
         return view('site.donate');
