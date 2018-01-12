@@ -2,7 +2,7 @@
 
 @section('title')
 
-    Contacts
+    Not Found
 
 @endsection
 

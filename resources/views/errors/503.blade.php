@@ -2,7 +2,7 @@
 
 @section('title')
 
-    Contacts
+    Error occured
 
 @endsection
 
