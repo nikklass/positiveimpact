@@ -402,7 +402,7 @@
                     <div class="single-item same-height">
                         <div class="img-box">
                             <div class="img-holder">
-                                <figure><a href="single-blog.html"><img src="images/news/1.jpg" alt=""></a></figure>
+                                <figure><a href="{{ route('site.programs') }}"><img src="images/news/1.jpg" alt=""></a></figure>
                             </div>
                             <!-- <ul class="img-content text-center">
                                 <li><i class="fa fa-calendar" aria-hidden="true"></i>20 Jan, 2017</li>
@@ -411,11 +411,13 @@
                             </ul> -->
                         </div>
                         <div class="news-content">
-                            <h4><a href="single-blog.html">Health and Nutrition</a></h4>
+                            <h4><a href="{{ route('site.programs') }}">Health and Nutrition</a></h4>
                             <div class="text">
-                                <p>Leadership trainign will give you the skills to enable you lead effectively in the 21st century and beyond.</p>
+                                <p>
+                                Learn health, nutrition and metabolism to sensitize you on healthy eating habits and weight-loss techniques and plans.
+                                </p>
                             </div>
-                            <a href="#" class="btn-two">Read More</a>
+                            <a href="{{ route('site.programs') }}" class="btn-two">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -423,7 +425,7 @@
                     <div class="single-item same-height">
                         <div class="img-box">
                             <div class="img-holder">
-                                <figure><a href="single-blog.html"><img src="images/news/2.jpg" alt=""></a></figure>
+                                <figure><a href="{{ route('site.programs') }}"><img src="images/news/2.jpg" alt=""></a></figure>
                             </div>
                             <!-- <ul class="img-content text-center">
                                 <li><i class="fa fa-calendar" aria-hidden="true"></i>20 Jan, 2017</li>
@@ -432,11 +434,12 @@
                             </ul> -->
                         </div>
                         <div class="news-content">
-                            <h4><a href="single-blog.html">Communication</a></h4>
+                            <h4><a href="{{ route('site.programs') }}">Communication</a></h4>
                             <div class="text">
-                                <p>Leadership trainign will give you the skills to enable you lead effectively in the 21st century and beyond. </p>
+                                <p>Learn effective communication to enable your personality to shine, errors to decrease and your operations to run smoother.
+                                </p>
                             </div>
-                            <a href="#" class="btn-two">Read More</a>
+                            <a href="{{ route('site.programs') }}" class="btn-two">Read More</a>
                         </div>
                     </div>
                 </div>
@@ -444,7 +447,7 @@
                     <div class="single-item same-height">
                         <div class="img-box">
                             <div class="img-holder">
-                                <figure><a href="single-blog.html"><img src="images/news/3.jpg" alt=""></a></figure>
+                                <figure><a href="{{ route('site.programs') }}"><img src="images/news/3.jpg" alt=""></a></figure>
                             </div>
                             <!-- <ul class="img-content text-center">
                                 <li><i class="fa fa-calendar" aria-hidden="true"></i>20 Jan, 2017</li>
@@ -453,11 +456,11 @@
                             </ul> -->
                         </div>
                         <div class="news-content">
-                            <h4><a href="single-blog.html">Teenage &amp; Parents workshop</a></h4>
+                            <h4><a href="{{ route('site.programs') }}">Teenage &amp; Parents workshop</a></h4>
                             <div class="text">
-                                <p>Leadership trainign will give you the skills to enable you lead effectively in the 21st century and beyond. </p>
+                                <p>Skill development taught include communication, team work and presentation skills</p>
                             </div>
-                            <a href="#" class="btn-two">Read More</a>
+                            <a href="{{ route('site.programs') }}" class="btn-two">Read More</a>
                         </div>
                     </div>
                 </div>

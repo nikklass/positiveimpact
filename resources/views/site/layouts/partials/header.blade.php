@@ -119,7 +119,7 @@
                                             <li><a href="error.html">Error Page</a></li>
                                         </ul> -->
                                     </li>
-                                    <li class="dropdown"><a href="{{ route('site.blog') }}">Blogs</a>
+                                    <li class="dropdown"><a href="{{ route('site.blog') }}">Blog</a>
                                         <!-- <ul>
                                             <li><a href="blog">Our Blog</a></li>
                                             <li><a href="single-blog">Blog Single</a></li>

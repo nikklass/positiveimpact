@@ -2711,7 +2711,7 @@ input[type=checkbox], input[type=radio] {
 
 .blog-page{
     position: relative;
-    padding: 100px 0px 80px 0px;
+    padding: 60px 0px 60px 0px;
 }
 .blog-page .single-item{
     border: 1px solid #e5e5e5;
@@ -3027,3 +3027,12 @@ input[type=checkbox], input[type=radio] {
 }
 
 .main-banner .tp-caption a.btn-one { color: #fff; }
+.main-banner .tp-caption a.btn-one:hover { color: #ff7302; }
+
+ul.list {
+    font-size: 14px;
+    color: #848484;
+    font-family: 'Open Sans',sans-serif;
+    line-height: 26px;
+    margin-bottom: 10px;
+}

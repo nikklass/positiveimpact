@@ -33,12 +33,27 @@
 
                             </p>
                         </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="video-gallery">
+                        <img src="images/cause/3.jpg" alt="ICT Development">
 
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            <div class="row section-padding">
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="welcome-content">
+                        
                         <div class="title-text">Mentors</div>
                         <div class="text">
-                            <!-- <p>
+                            <p>
                             To assist the youth in living better lives.
-                            </p> -->
+                            </p>
                         </div>
 
                         <div class="title-text">Workshops</div>
@@ -61,19 +76,28 @@
                             </ul>
                         </div>
 
-                        <button class="btn-one donate-box-btn">Donate Now</button>
+                        <!-- <button class="btn-one donate-box-btn">Donate Now</button> -->
+
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="video-gallery">
-                        <img src="images/cause/3.jpg" alt="ICT Development">
+                        <img src="images/cause/1.jpg" alt="ICT Development">
 
                     </div>
                 </div>
             </div>
+
+
+            <!-- <hr> -->
+
+
         </div>
+
+
     </section>
     <!-- welcome section end -->
+
 
     <!-- sponsors section -->
     <!-- <section class="our-sponsors section-padding text-center">
@@ -106,117 +130,6 @@
     </section> -->
     <!-- sponsors section end -->
 
-    <!-- our-volunteers section -->
-    <section class="our-volunteers section-padding">
-        <div class="container">
-            <div class="our-volunteers-title text-center">
-                <div class="section-title"><h2>Our <span>Team</span></h2></div>
-                <div class="title"><p>Our capable team members</p></div>
-            </div>
-            <div class="row">
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <div class="single-item">
-                        <div class="img-holder">
-                            <figure><img src="images/team/rose.jpg" alt=""></figure>
-                            <div class="overlay">
-                                <!-- <div class="box">
-                                    <div class="content">
-                                        <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a>
-                                    </div>
-                                </div> -->
-                            </div>
-                        </div>
-                        <div class="lower-content">
-                            <h4><a href="single-volunteer.html">Rose Okwany</a></h4>
-                            <span>Executive Director</span>
-                            <div class="text">
-                                <p>She is a born again Christian. Who is interested in transforming the youth in to living better lives.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <!-- <div class="single-item">
-                        <div class="img-holder">
-                            <figure><img src="images/team/2.jpg" alt=""></figure>
-                            <div class="overlay">
-                                <div class="box">
-                                    <div class="content">
-                                        <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="lower-content">
-                            <h4><a href="single-volunteer.html">Tony Brown</a></h4>
-                            <span>Business man</span>
-                            <div class="text">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit
-                                sed do eiusmod</p>
-                            </div>
-                        </div>
-                    </div> -->
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <!-- <div class="single-item">
-                        <div class="img-holder">
-                            <figure><img src="images/team/3.jpg" alt=""></figure>
-                            <div class="overlay">
-                                <div class="box">
-                                    <div class="content">
-                                        <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="lower-content">
-                            <h4><a href="single-volunteer.html">Tony Brown</a></h4>
-                            <span>Business man</span>
-                            <div class="text">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit
-                                sed do eiusmod</p>
-                            </div>
-                        </div>
-                    </div> -->
-                </div>
-                <div class="col-md-3 col-sm-6 col-xs-12">
-                    <!-- <div class="single-item">
-                        <div class="img-holder">
-                            <figure><img src="images/team/4.jpg" alt=""></figure>
-                            <div class="overlay">
-                                <div class="box">
-                                    <div class="content">
-                                        <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a>
-                                        <a href="#"><i class="fa fa-pinterest-p" aria-hidden="true"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="lower-content">
-                            <h4><a href="single-volunteer.html">Tony Brown</a></h4>
-                            <span>Business man</span>
-                            <div class="text">
-                                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit
-                                sed do eiusmod</p>
-                            </div>
-                        </div>
-                    </div> -->
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- our-volunteers section end -->
          
 
 @endsection  
