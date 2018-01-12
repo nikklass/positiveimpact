@@ -101,7 +101,7 @@
             data-map-zoom="12"
             data-markers='{
                 "marker-1": [{!! $site_settings->company_office_1_latitude !!}, {!! $site_settings->company_office_1_longitude !!}, "<h4>Branch Office</h4><p>{!! $site_settings->company_location !!}</p>","images/resources/map-marker.png"]
-            }'>
+            }'> 
 
         </div>
     </section>

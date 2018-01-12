@@ -77,5 +77,6 @@ class HomeController extends Controller
     {
         return view('site.contacts');
     }
+    
 
 }
