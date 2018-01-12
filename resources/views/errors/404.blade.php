@@ -15,8 +15,8 @@
     <section class="error-section error-page text-center">
         <div class="container">
             <div class="row">
-                <div class="error-title">5<i class="fa fa-delete-o" aria-hidden="true"></i>3</div>
-                <div class="title">Oops! An error occured!</div>
+                <div class="error-title">4<i class="fa fa-frown-o" aria-hidden="true"></i>4</div>
+                <div class="title">Oops! Page Not Found!</div>
                 <div class="search-box">
                     
                     <a href="{{ route('site.home') }}" class="btn-one">Go to home</a>
