@@ -22,7 +22,11 @@ class AppServiceProvider extends ServiceProvider
             $view->with('user', \App\User::getUser());
         });
 
-        view()->composer('site.layouts.partials.footer', function($view){
+        /*view()->composer('site.layouts.partials.footer', function($view){
+            $view->with('site_settings', json_decode(getAllSiteSettings()));
+        });*/
+
+        view()->composer('*', function($view){
             $view->with('site_settings', json_decode(getAllSiteSettings()));
         });
 

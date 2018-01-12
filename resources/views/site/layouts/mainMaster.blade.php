@@ -39,6 +39,9 @@
 
         <link href='https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i' rel='stylesheet' type='text/css'>
 
+        @yield('page_css')
+
+        @include('site.layouts.scriptsHeader')
 
         <script>
             window.Laravel = { csrfToken: '{{ csrf_token() }}'}
@@ -47,47 +50,47 @@
     </head>
     
     <body>
+
         
-        <div class="page-wrapper">
-
-            <!-- Preloader -->
-            <!-- <div class="preloader-it">
-               <div class="la-anim-1"></div>
-            </div> -->
-            <!-- /Preloader -->
+        <div id="app">
 
 
-            @yield('page_css')
-
-
-            @include('site.layouts.scriptsHeader')
-
-
-            <div id="app">
-
-                @yield('main_content')
-
-            </div>
+            <div class="page-wrapper">
             
 
-            @include('site.layouts.scriptsFooter')
+                <!-- Preloader -->
+                <!-- <div class="preloader-it">
+                   <div class="la-anim-1"></div>
+                </div> -->
+                <!-- /Preloader -->
 
 
-            @yield('page_scripts')
+                    @yield('main_content')
+                
+
+                @include('site.layouts.scriptsFooter')
 
 
-            @include('site.layouts.partials.error_messages')
+                @include('site.layouts.partials.error_messages')
+
+
+            </div>
+
 
         </div>
 
-
-        @yield('page_includes')
 
         <!--Scroll to top-->
         <div class="scroll-to-top scroll-to-target" data-target=".main-header">
             <span class="icon fa fa-long-arrow-up"></span>
         </div>
         <!--End scroll to top-->
+
+
+        @yield('page_includes')
+
+
+        @yield('page_scripts')
         
 
     </body>

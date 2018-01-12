@@ -13,6 +13,7 @@
 
         
         @yield('content')
+        
 
         <!-- Footer -->
         @include('site.layouts.partials.footer')

@@ -53,4 +53,29 @@ class HomeController extends Controller
 
     }
 
+    public function about()
+    {
+        return view('site.about');
+    }
+
+    public function programs()
+    {
+        return view('site.programs');
+    }
+
+    public function videos()
+    {
+        return view('site.videos');
+    }
+
+    public function blog()
+    {
+        return view('site.blog');
+    }
+
+    public function contacts()
+    {
+        return view('site.contacts');
+    }
+
 }

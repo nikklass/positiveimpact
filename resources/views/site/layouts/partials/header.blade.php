@@ -29,17 +29,39 @@
             <div class="row">
                 <div class="col-md-8 col-sm-6 col-xs-12">
                     <ul class="top-left">
-                        <li><i class="fa fa-phone"></i>Call:  + 1 (813) 597-3223 </li>
-                        <li><i class="fa fa-envelope"></i>Email:  info@positimpact.com</li>
+                        <li><i class="fa fa-phone"></i>Call:  {{ $site_settings->contact_phone }} </li>
+                        <li><i class="fa fa-envelope"></i>Email:  {{ $site_settings->contact_email }}</li>
                     </ul>
                 </div>
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="top-right clearfix">
                         <ul class="social-link">
                             <li>Follow Us On: </li>
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+
+                            @if ($site_settings->facebook_page_url) 
+                                <li>
+                                    <a href="{{ $site_settings->facebook_page_url }}">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if ($site_settings->twitter_page_url) 
+                                <li>
+                                    <a href="{{ $site_settings->twitter_page_url }}">
+                                        <i class="fa fa-twitter"></i>
+                                    </a>
+                                </li>
+                            @endif
+
+                            @if ($site_settings->linkedin_page_url) 
+                                <li>
+                                    <a href="{{ $site_settings->linkedin_page_url }}">
+                                        <i class="fa fa-linkedin"></i>
+                                    </a>
+                                </li>
+                            @endif
+
                         </ul>
                     </div>
                 </div>
@@ -52,8 +74,10 @@
             <div class="row">
                 <div class="col-md-2 col-sm-12 col-xs-12">
                     <div class="logo">
-                        <a href="index.php"><img src="images/home/logo.png" 
-                        alt="{{ config('app.name') }}" height="78"></a>
+                        <a href="{{ route('site.home') }}">
+                            <img src="images/home/logo.png" 
+                                alt="{{ config('app.name') }}" height="78">
+                        </a>
                     </div>
                 </div>
                 <div class="col-md-10 col-sm-12 col-xs-12">
@@ -68,15 +92,17 @@
                             </div>
                             <div class="navbar-collapse collapse clearfix">
                                 <ul class="navigation clearfix">
-                                    <li class="current"><a href="index.php">Home</a>
+                                    <li class="current">
+                                        <a href="{{ route('site.home') }}">Home</a>
                                     </li>
-                                    <li><a href="about.php">About</a>
+                                    <li>
+                                        <a href="{{ route('site.about') }}">About</a>
                                     </li>
-                                    <li class="dropdown"><a href="#">Programs</a>
+                                    <li class="dropdown"><a href="{{ route('site.programs') }}">Programs</a>
                                         <ul>
                                             <li><a href="#">Mentorship</a></li>
-                                            <li><a href="#">ICT Development</a></li>
-                                            <li><a href="#">Leadership</a></li>
+                                            <li><a href="#">Workshops</a></li>
+                                            <li><a href="#">Training</a></li>
                                         </ul>
                                     </li>
                                     <!-- <li class="dropdown"><a href="#">Blogs</a>
@@ -85,7 +111,7 @@
                                             <li><a href="events-details.php">Events Details</a></li>
                                         </ul>
                                     </li> -->
-                                    <li class="dropdown"><a href="#">Videos</a>
+                                    <li class="dropdown"><a href="{{ route('site.videos') }}">Videos</a>
                                         <!-- <ul>
                                             <li><a href="team.html">Our Team</a></li>
                                             <li><a href="single-volunteer.html">Single Volunteer</a></li>
@@ -93,14 +119,13 @@
                                             <li><a href="error.html">Error Page</a></li>
                                         </ul> -->
                                     </li>
-                                    <li class="dropdown"><a href="#">Blogs</a>
-                                        <ul>
+                                    <li class="dropdown"><a href="{{ route('site.blog') }}">Blogs</a>
+                                        <!-- <ul>
                                             <li><a href="blog">Our Blog</a></li>
                                             <li><a href="single-blog">Blog Single</a></li>
-                                        </ul>
+                                        </ul> -->
                                     </li>
-                                    <li><a href="contacts">Contact Us</a>
-                                    </li>
+                                    <li><a href="{{ route('site.contacts') }}">Contact Us</a></li>
                                 </ul>
                             </div>
                         </nav>
@@ -119,8 +144,10 @@
             <div class="row">
                 <div class="col-md-3 col-sm-12 col-xs-12">
                     <div class="logo">
-                        <a href="index.php"><img src="images/home/logo.png" 
-                        alt="{{ config('app.name') }}" height="78"></a>
+                        <a href="{{ route('site.home') }}">
+                            <img src="images/home/logo.png" 
+                            alt="{{ config('app.name') }}" height="78">
+                        </a>
                     </div>
                 </div>
                 <div class="col-md-9 col-sm-12 col-xs-12">
@@ -135,9 +162,11 @@
                             </div>
                             <div class="navbar-collapse collapse clearfix">
                                 <ul class="navigation clearfix">
-                                    <li class="current"><a href="index.php">Home</a>
+                                    <li class="current">
+                                        <a href="{{ route('site.home') }}">Home</a>
                                     </li>
-                                    <li><a href="about.php">About</a>
+                                    <li>
+                                        <a href="{{ route('site.about') }}">About</a>
                                     </li>
                                     <li class="dropdown"><a href="#">Programs</a>
                                         <ul>

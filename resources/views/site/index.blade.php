@@ -30,7 +30,7 @@
                              data-start="2000"
                              data-splitin="none"
                              data-splitout="none">
-                            <div class="banner-title"><h1>We Empower You</h1></div>
+                            <div class="banner-title"><h1>Career Development</h1></div>
                         </div>
                         <div class="tp-caption tp-resizeme"
                              data-x="left" data-hoffset="0"
@@ -44,7 +44,7 @@
                              data-start="2300">
                             <div class="banner-text">
                                 <p>
-                                    We offer empowerment and self-development programmes to participants<br /> 
+                                    Achieve your personal and professional development goals<br /> 
                                 </p>
                             </div>
                         </div>
@@ -58,7 +58,7 @@
                              data-splitout="none"
                              data-responsive_offset="on"
                              data-start="2600">
-                            <button class="donate-box-btn btn-one">Join Us</button>
+                            <a class="donate-box-btn btn-one">Read More</a>
                         </div>
                     </li>
 
@@ -89,7 +89,7 @@
                              data-splitout="none"
                              data-responsive_offset="on"
                              data-start="2300">
-                            <div class="banner-text"><p>We provide the youth with a platform where they can interact with <br/> mentors and trainers to improve their lives </p></div>
+                            <div class="banner-text"><p>We provide the youth with a platform where they can interact with <br/> christian mentors and trainers to improve their lives </p></div>
                         </div>
                         <div class="tp-caption tp-resizeme"
                              data-x="left" data-hoffset="0"
@@ -101,8 +101,8 @@
                              data-splitout="none"
                              data-responsive_offset="on"
                              data-start="2600">
-                            <button class="donate-box-btn btn-one">Join Us</button>
-                        </div>
+                            <a class="donate-box-btn btn-one">Read More</a>
+                        </div> 
                     </li>
 
                     <!-- <li class="slide_show slide_3" data-index='rs-381' data-transition='slidingoverlaydown' data-slotamount='default' data-easein='default' data-easeout='default' data-masterspeed='default' data-rotate='0' data-saveperformance='off' data-title='3D Curtain Vertical' data-description=''>
@@ -144,7 +144,7 @@
                              data-splitout="none"
                              data-responsive_offset="on"
                              data-start="2600">
-                            <button class="donate-box-btn btn-one">donate now</button>
+                            <a class="donate-box-btn btn-one">donate now</a>
                         </div>
                     </li> -->
 
@@ -177,8 +177,8 @@
                         </div>
                         <div class="cause-content">
                             <br/>
-                            <h4><a href="causes-details.html">Career Development</a></h4>
-                            <div class="text"><p>We provide the youth with a platform where they can interact.</p></div>
+                            <h4><a href="causes-details.html">Training</a></h4>
+                            <div class="text"><p>Achieve your personal and professional development goals</p></div>
                             <button class="btn-one donate-box-btn">Read More</button>
                         </div>
                     </div>
@@ -195,7 +195,7 @@
                         <div class="cause-content">
                             <br/>
                             <h4><a href="causes-details.html">Mentorship Sessions</a></h4>
-                            <div class="text"><p>We provide the youth with a platform where they can interact.</p></div>
+                            <div class="text"><p>We connect the youth with caring Christian mentors</p></div>
                             <button class="btn-one donate-box-btn">Read More</button>
                         </div>
                     </div>
@@ -211,8 +211,8 @@
                         </div>
                         <div class="cause-content">
                             <br/>
-                            <h4><a href="causes-details.html">ICT Development</a></h4>
-                            <div class="text"><p>We provide the youth with a platform where they can interact.</p></div>
+                            <h4><a href="causes-details.html">Workshops</a></h4>
+                            <div class="text"><p>Skill development including communication, team work and presentation</p></div>
                             <button class="btn-one donate-box-btn">Read More</button>
                         </div>
                     </div>
@@ -235,7 +235,7 @@
                         <div class="icon-box">
                             <i class="flaticon-box"></i>
                         </div>
-                        <h4>Become Member</h4>
+                        <h4>Become a Member</h4>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6 col-xs-12">
@@ -251,7 +251,7 @@
                         <div class="icon-box">
                             <i class="flaticon-people"></i>
                         </div>
-                        <h4>Become Volunteer</h4>
+                        <h4>Become a Volunteer</h4>
                     </div>
                 </div>
                 <div class="col-md-3 col-sm-6 col-xs-12">
@@ -381,7 +381,7 @@
                             </p>
                         </div>
                         <div class="cta-btn">
-                            <button class="btn-two donate-box-btn">Join Us</button>
+                            <button class="btn-two donate-box-btn">Read More</button>
                         </div>
                     </div>
                 </div>
@@ -404,14 +404,14 @@
                             <div class="img-holder">
                                 <figure><a href="single-blog.html"><img src="images/news/1.jpg" alt=""></a></figure>
                             </div>
-                            <ul class="img-content text-center">
+                            <!-- <ul class="img-content text-center">
                                 <li><i class="fa fa-calendar" aria-hidden="true"></i>20 Jan, 2017</li>
                                 <li><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>350 Likes</li>
                                 <li><i class="fa fa-comments-o" aria-hidden="true"></i>75 Comments</li>
-                            </ul>
+                            </ul> -->
                         </div>
                         <div class="news-content">
-                            <h4><a href="single-blog.html">Leadership Training</a></h4>
+                            <h4><a href="single-blog.html">Health and Nutrition</a></h4>
                             <div class="text">
                                 <p>Leadership trainign will give you the skills to enable you lead effectively in the 21st century and beyond.</p>
                             </div>
@@ -425,14 +425,14 @@
                             <div class="img-holder">
                                 <figure><a href="single-blog.html"><img src="images/news/2.jpg" alt=""></a></figure>
                             </div>
-                            <ul class="img-content text-center">
+                            <!-- <ul class="img-content text-center">
                                 <li><i class="fa fa-calendar" aria-hidden="true"></i>20 Jan, 2017</li>
                                 <li><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>350 Likes</li>
                                 <li><i class="fa fa-comments-o" aria-hidden="true"></i>75 Comments</li>
-                            </ul>
+                            </ul> -->
                         </div>
                         <div class="news-content">
-                            <h4><a href="single-blog.html">Young Girls Mentorship</a></h4>
+                            <h4><a href="single-blog.html">Communication</a></h4>
                             <div class="text">
                                 <p>Leadership trainign will give you the skills to enable you lead effectively in the 21st century and beyond. </p>
                             </div>
@@ -446,14 +446,14 @@
                             <div class="img-holder">
                                 <figure><a href="single-blog.html"><img src="images/news/3.jpg" alt=""></a></figure>
                             </div>
-                            <ul class="img-content text-center">
+                            <!-- <ul class="img-content text-center">
                                 <li><i class="fa fa-calendar" aria-hidden="true"></i>20 Jan, 2017</li>
                                 <li><i class="fa fa-thumbs-o-up" aria-hidden="true"></i>350 Likes</li>
                                 <li><i class="fa fa-comments-o" aria-hidden="true"></i>75 Comments</li>
-                            </ul>
+                            </ul> -->
                         </div>
                         <div class="news-content">
-                            <h4><a href="single-blog.html">Young Boys Mentorship</a></h4>
+                            <h4><a href="single-blog.html">Teenage &amp; Parents workshop</a></h4>
                             <div class="text">
                                 <p>Leadership trainign will give you the skills to enable you lead effectively in the 21st century and beyond. </p>
                             </div>
@@ -771,7 +771,7 @@
                                     <div class="text">Recurring</div>
                                 </div>
                             </div>
-                            <button class="btn-two donate-box-btn">Join Us</button>
+                            <button class="btn-two donate-box-btn">Read More</button>
                         </div>
                     </div>
                 </div>

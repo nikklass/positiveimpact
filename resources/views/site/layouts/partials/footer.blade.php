@@ -25,15 +25,17 @@
                     <div class="logo-widget">
                         <div class="footer-logo">
                             <figure>
-                                <a href="{{ route('home') }}">
+                                <a href="{{ route('site.home') }}">
                                     <img src="images/footer/logo.png" alt="Positive Impact" height="78">
                                 </a>
                             </figure>
                         </div>
                         <div class="text">
                             <p>
-                               Positive Impact is an organization dedicated to educating, empowering, and equipping individuals to transform their lives through hard work, dedication, and self-discipline.
-                            </p>
+                               
+                               {{ $site_settings->company_website_footer_desc }}
+
+                            </p> 
                         </div>
                     </div>
                 </div>
@@ -41,10 +43,10 @@
                     <div class="link-widget">
                         <h4>Quick Links</h4>
                         <ul class="list">
-                            <li><a href="{{ route('home') }}">About Us</a></li>
-                            <li><a href="{{ route('home') }}">Programmes</a></li>
-                            <li><a href="{{ route('home') }}">Videos</a></li>
-                            <li><a href="{{ route('home') }}">Blogs</a></li>
+                            <li><a href="{{ route('site.about') }}">About Us</a></li>
+                            <li><a href="{{ route('site.home') }}">Programs</a></li>
+                            <li><a href="{{ route('site.home') }}">Videos</a></li>
+                            <li><a href="{{ route('site.home') }}">Blogs</a></li>
                         </ul>
                     </div>
                 </div>
@@ -81,18 +83,30 @@
                         <!-- <div class="text">
                             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit sed do eiusmod.</p>
                         </div> -->
+
+                        @if ($site_settings->company_location)
                         <div class="single-item">
                             <div class="icon-box"><i class="fa fa-home" aria-hidden="true"></i></div>
-                            <div class="text">113 Bark street, Second Avenue,</div>
+                            <div class="text">{{ $site_settings->company_location }},</div>
                         </div>
+                        @endif
+
+                        @if ($site_settings->contact_phone) 
                         <div class="single-item">
                             <div class="icon-box"><i class="fa fa-phone"></i></div>
-                            <div class="text">+ 1 (813) 597-3223</div>
+                            <div class="text">{{ $site_settings->contact_phone }}</div>
                         </div>
+                        @endif
+
+                        @if ($site_settings->contact_email) 
                         <div class="single-item">
                             <div class="icon-box"><i class="fa fa-envelope-o" aria-hidden="true"></i></div>
-                            <div class="mail"><a href="#">info@positiveimpact.com</a></div>
+                            <div class="mail">
+                                <a href="#">{{ $site_settings->contact_email }}</a>
+                            </div>
                         </div>
+                        @endif
+
                     </div>
                 </div>
             </div>
@@ -101,10 +115,10 @@
             <div class="text">
                 <p>
                     Copyright &copy; 
-                    <a href="#">PositiveImpact</a> 2017. 
+                    <a href="{{ route('site.home') }}">PositiveImpact</a> {!! date('Y') !!}. 
                     All Rights Reserved.
                     &nbsp;
-                    <a href="#">Heavybit.</a>
+                    <a href="http://showbiz.co.ke" target="_blank">Heavybit.</a>
                 </p>
             </div>
         </div>

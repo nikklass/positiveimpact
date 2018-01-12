@@ -3025,3 +3025,5 @@ input[type=checkbox], input[type=radio] {
 .error-section a.btn-one{
     padding: 10px 20px 11px 21px;
 }
+
+.main-banner .tp-caption a.btn-one { color: #fff; }
