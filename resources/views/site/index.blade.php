@@ -394,7 +394,7 @@
     <section class="news-section section-padding">
         <div class="container">
             <div class="news-title text-center">
-                <div class="section-title"><h2>Recent News</h2></div>
+                <div class="section-title"><h2>Our Programs and Activities</h2></div>
                 <div class="title"><p>Get a glimpse of our recent and forthcoming activities and ventures</p></div>
             </div>
             <div class="row">
