@@ -8,6 +8,16 @@ $api->version('v1', function($api){
 
         $api->get('ping', 'Api\PingController@index');
 
+        $api->get('/clear-cache', function() {
+           $exitCode = Artisan::call('cache:clear');
+           return '<h1>Cache cleared</h1>';
+        });
+
+        $api->get('/config-cache', function() {
+           $exitCode = Artisan::call('config:cache');
+           return '<h1>Clear Config cleared</h1>';
+        });
+
         //login and refresh token
         $api->post('/login', 'Api\Users\ApiLoginController@login');
 

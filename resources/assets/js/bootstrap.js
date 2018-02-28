@@ -34,4 +34,5 @@ import '../myjs/wow.js';
 import '../myjs/theme.js';
 import '../myjs/jquery.bxslider.min.js';
 import '../myjs/jquery.matchHeight.js';
+import '../myjs/jquery.toast.min.js';
 import '../myjs/script.js'; 

@@ -39,7 +39,8 @@ class CommentController extends Controller
             'name' => 'required',
             'email' => 'required|email',
             'phone' => 'required',
-            'message' => 'required'
+            'message' => 'required',
+            'g-recaptcha-response' => 'required|captcha',
         ]);
 
         //create item

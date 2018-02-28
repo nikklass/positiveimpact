@@ -1,5 +1,8 @@
 <?php
 
+if (env('APP_ENV') === 'production') {
+    URL::forceSchema('https');
+}
 //Route::get('/api', 'ApiDocsController@index');
 
 Route::get('/', 'Web\HomeController@index')->name('site.home');

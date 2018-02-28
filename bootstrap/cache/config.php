@@ -2,7 +2,7 @@
   'api' => 
   array (
     'standardsTree' => 'vnd',
-    'subtype' => 'bodaloan',
+    'subtype' => 'positiveimpact',
     'version' => 'v1',
     'prefix' => 'api',
     'domain' => NULL,
@@ -86,11 +86,12 @@
       28 => 'Jenssegers\\Agent\\AgentServiceProvider',
       29 => 'Optimus\\ApiConsumer\\Provider\\LaravelServiceProvider',
       30 => 'Intervention\\Image\\ImageServiceProvider',
-      31 => 'App\\Providers\\AppServiceProvider',
-      32 => 'App\\Providers\\AuthServiceProvider',
-      33 => 'App\\Providers\\EventServiceProvider',
-      34 => 'App\\Providers\\RouteServiceProvider',
-      35 => 'App\\Providers\\ErrorHandlerServiceProvider',
+      31 => 'Anhskohbo\\NoCaptcha\\NoCaptchaServiceProvider',
+      32 => 'App\\Providers\\AppServiceProvider',
+      33 => 'App\\Providers\\AuthServiceProvider',
+      34 => 'App\\Providers\\EventServiceProvider',
+      35 => 'App\\Providers\\RouteServiceProvider',
+      36 => 'App\\Providers\\ErrorHandlerServiceProvider',
     ),
     'aliases' => 
     array (
@@ -961,5 +962,14 @@
     array (
     ),
     'maxAge' => 0,
+  ),
+  'captcha' => 
+  array (
+    'secret' => 'secret-key',
+    'sitekey' => 'site-key',
+    'options' => 
+    array (
+      'timeout' => 2.0,
+    ),
   ),
 );

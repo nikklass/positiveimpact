@@ -13,10 +13,10 @@
     <!-- contact info -->
     <section class="contact-info text-center">
         <div class="container">
-            <div class="welcome-title text-center">
+            <!-- <div class="welcome-title text-center">
                 <div class="section-title"><h2>Contact Us</h2></div>
                 <div class="title"><p>&nbsp;</p></div>
-            </div>
+            </div> -->
             <div class="row">
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="single-item hvr-float-shadow">
@@ -86,6 +86,14 @@
                             <textarea placeholder="Message" name="message" required=""></textarea>
                         </div>
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
+                            {!! app('captcha')->display(); !!}
+                        </div>
+                    </div>
+
+                    
 
                     <button type="submit" class="btn-one" data-loading-text="Please wait...">
                         Send Message

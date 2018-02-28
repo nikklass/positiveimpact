@@ -23,17 +23,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-
-        /*start cache settings*/
-        $url = request()->url();
-        $params = request()->query();
-        $fullUrl = getFullCacheUrl($url, $params);
-        $minutes = getCacheDuration(); 
-        /*end cache settings*/
-
-        $restaurant_data = [];
-        $club_data = [];
-        $event_data = [];
                 
         //get offers
         /*$limit = 8;
