@@ -87,11 +87,11 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
                             {!! app('captcha')->display(); !!}
                         </div>
-                    </div>
+                    </div> -->
 
                     
 
