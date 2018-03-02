@@ -7,7 +7,7 @@
 @endsection
 
 
-@section('content')
+@section('content') 
 
 
     <!-- contact info -->

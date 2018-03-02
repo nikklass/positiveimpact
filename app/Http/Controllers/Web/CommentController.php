@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ReCaptchataTestFormRequest;
 use Session;
 
-class CommentController extends Controller
+class CommentController extends Controller 
 {
     
     protected $model;

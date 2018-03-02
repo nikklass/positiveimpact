@@ -8,7 +8,7 @@
 View::share('passport_client_id', \Config::get('constants.passport.client_id'));
 View::share('passport_client_secret', \Config::get('constants.passport.client_secret'));
 View::share('passport_login_url', \Config::get('constants.passport.login_url'));
-View::share('passport_user_url', \Config::get('constants.passport.user_url')); 
+View::share('passport_user_url', \Config::get('constants.passport.user_url'));  
 
 
 View::share('get_users_url', \Config::get('constants.routes.get_users_url'));
