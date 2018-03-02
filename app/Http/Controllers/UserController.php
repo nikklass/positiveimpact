@@ -21,6 +21,21 @@ class UserController extends Controller
     use RegistersUsers;
 
     /**
+     * @var User
+     */
+    protected $model;
+
+    /**
+     * UsersController constructor.
+     * @param User $model
+     */
+    public function __construct(User $model)
+    {
+        $this->model = $model;
+    }
+
+
+    /**
      * Where to redirect users after registration.
      *
      * @var string
@@ -89,6 +104,7 @@ class UserController extends Controller
 
     }
 
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -97,6 +113,28 @@ class UserController extends Controller
      */
 
     public function store(Request $request)
+    {
+
+        $this->validate($request, [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone_country' => 'required_with:phone',
+            'phone' => 'required|phone:KE',
+            'password' => 'required|min:8|confirmed',
+            'company_id' => 'required|integer',
+        ]);
+
+        //create item
+        $user = $this->model->create($request->all());
+
+        session()->flash("success", "User successfully created");
+        
+        return redirect()->route('users.index');
+
+    }
+
+
+    public function store2(Request $request)
     {
 
         //dd($request);

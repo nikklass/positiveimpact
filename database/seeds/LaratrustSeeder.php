@@ -1,12 +1,14 @@
 <?php
 
+use App\Permission;
+use App\Role;
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-use Faker\Factory as Faker;
-
 class LaratrustSeeder extends Seeder
 {
+    
     /**
      * Run the database seeds.
      *
@@ -27,8 +29,9 @@ class LaratrustSeeder extends Seeder
         foreach ($config as $key => $modules) {
             
             // Create a new role
-            $role = \App\Role::create([
+            $role = Role::create([
                 'name' => $key,
+                'uuid' => $faker->uuid,
                 'display_name' => ucwords(str_replace("_", " ", $key)),
                 'description' => ucwords(str_replace("_", " ", $key))
             ]);
@@ -42,11 +45,21 @@ class LaratrustSeeder extends Seeder
                 foreach ($permissions as $p => $perm) {
                     $permissionValue = $mapPermission->get($perm);
 
-                    $permission = \App\Permission::firstOrCreate([
-                        'name' => $permissionValue . '-' . $module,
-                        'display_name' => ucfirst($permissionValue) . ' ' . ucfirst($module),
-                        'description' => ucfirst($permissionValue) . ' ' . ucfirst($module),
-                    ]);
+                    //dump($permissionValue . '-xxx-' . $module);
+
+                    //check if perm exists
+                    $permission_data = Permission::where('name', $permissionValue . '-' . $module)->first();
+
+                    if (!$permission_data) {
+                        $permission = Permission::create([
+                            'name' => $permissionValue . '-' . $module,
+                            'uuid' => $faker->uuid,
+                            'display_name' => ucfirst($permissionValue) . ' ' . ucfirst($module),
+                            'description' => ucfirst($permissionValue) . ' ' . ucfirst($module),
+                        ]);
+                    } else {
+                        $permission = $permission_data;
+                    }
 
                     $this->command->info('Creating Permission to '.$permissionValue.' for '. $module);
                     
@@ -60,20 +73,25 @@ class LaratrustSeeder extends Seeder
 
             $this->command->info("Creating '{$key}' user");
             // Create default user for each role
+            $i = 1;
             $user = \App\User::create([
                 'first_name' => ucwords(str_replace("_", " ", $key)),
                 //'last_name' => ucwords(str_replace("_", " ", $key)),
-                'phone_number' => "2547" . $faker->numberBetween(11,99) . $faker->numberBetween(100000,999999),
-                'sms_user_name' => '',
+                //'phone' => "07" . $faker->numberBetween(10,39) . $faker->numberBetween(100000,999999),
+                'phone' => '072074321' . $i,
                 'company_id' => '1',
-                'account_number' => $faker->numberBetween(1000,99999),
+                'phone_country' => 'KE',
+                'status_id' => '1',
+                'active' => '1',
+                'uuid' => $faker->uuid,
                 'email' => $key.'@pendo.co.ke',
                 'gender' => $faker->randomElement($array = array ('m','f')),
-                'api_token' => str_random(60),
-                'password' => bcrypt('123'),
+                'password' => '123',
                 'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
                 'created_by' => '1'
             ]);
+            $i++;
 
             //get team id
             //$team_id = '1'; 
@@ -90,8 +108,8 @@ class LaratrustSeeder extends Seeder
                     // Create default user for each permission set
                     $user = \App\User::create([
                         'name' => ucwords(str_replace("_", " ", $key)),
-                        'email' => $key.'@app.com',
-                        'password' => bcrypt('password'),
+                        'email' => $key.'@pendo.co.ke',
+                        'password' => bcrypt('123'),
                         'remember_token' => str_random(10),
                     ]);
                     foreach ($permissions as $p => $perm) {
@@ -99,6 +117,7 @@ class LaratrustSeeder extends Seeder
 
                         $permission = \App\Permission::firstOrCreate([
                             'name' => $permissionValue . '-' . $module,
+                            'uuid' => $faker->uuid,
                             'display_name' => ucfirst($permissionValue) . ' ' . ucfirst($module),
                             'description' => ucfirst($permissionValue) . ' ' . ucfirst($module),
                         ]);
@@ -120,13 +139,21 @@ class LaratrustSeeder extends Seeder
 
     public function truncateLaratrustTables()
     {
+        
         DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+        
         DB::table('permission_role')->truncate();
         DB::table('permission_user')->truncate();
         DB::table('role_user')->truncate();
-        \App\User::truncate();
+        DB::table('permissions')->truncate();
+        DB::table('roles')->truncate();
+        DB::table('users')->truncate();
+        /*\App\User::truncate();
         \App\Role::truncate();
-        \App\Permission::truncate();
+        \App\Permission::truncate();*/
+
         DB::statement('SET FOREIGN_KEY_CHECKS = 1');
+
     }
+
 }

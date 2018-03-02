@@ -75,7 +75,7 @@
                 <div class="col-md-2 col-sm-12 col-xs-12">
                     <div class="logo">
                         <a href="{{ route('site.home') }}">
-                            <img src="images/home/logo.png" 
+                            <img src="site/images/home/logo.png" 
                                 alt="{{ config('app.name') }}" height="78">
                         </a>
                     </div>
@@ -150,7 +150,7 @@
                 <div class="col-md-3 col-sm-12 col-xs-12">
                     <div class="logo">
                         <a href="{{ route('site.home') }}">
-                            <img src="images/home/logo.png" 
+                            <img src="site/images/home/logo.png" 
                             alt="{{ config('app.name') }}" height="78">
                         </a>
                     </div>

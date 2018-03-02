@@ -1,16 +1,22 @@
 <?php
+//session_start();
 
+use App\Entities\Account;
+use App\Entities\Company;
+use App\Entities\ConfirmCode;
+use App\Entities\Group;
 use App\Entities\MpesaPaybill;
-use App\Entities\Offer;
+use App\Entities\Product;
+use App\Entities\SmsOutbox;
 use App\Entities\SiteSetting;
+use App\Entities\UserAccessToken;
 use App\User;
 use Carbon\Carbon;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Psr7;
 use GuzzleHttp\Psr7\Request as GuzzleRequest;
-use Illuminate\Support\Facades\DB;
-use Intervention\Image\ImageManagerStatic as Image;
 use Maatwebsite\Excel\Facades\Excel;
 use Propaganistas\LaravelPhone\PhoneNumber;
-use GeoIP as GeoIP;
 
 
 /**
@@ -24,102 +30,391 @@ function setActive($path)
     return Request::is($path . '*') ? ' current' :  '';
 }
 
-
-//get offers
-function getOffers($category_id='', $limit, $offer_type='') {
-
-    //DB::enableQueryLog();
-
-    $data = Offer::select('offers.*')
-            ->join('clubs', 'offers.club_id', '=', 'clubs.id')
-            //->join('categories', 'clubs.category_id', '=', 'categories.id')
-            ->when($category_id, function($query) use ($category_id){
-                $query->join('categories', 'clubs.category_id', '=', 'categories.id');
-                return $query->where('clubs.category_id', $category_id);
-            })
-            ->when($offer_type, function($query) use ($offer_type){
-                return $query->where('offers.offer_type', $offer_type);
-            })
-            ->where('offers.status_id', '1')
-            ->where('category_id', $category_id)
-            ->limit($limit)
-            ->orderBy("offers.name")
-            ->get();
-
-    /*print_r(DB::getQueryLog());
-    dump($data);
-    dd('hello');*/
+//SEND SMS
+function sendApiSms($data) {
     
-    return $data;
+    //******************* START SEND SMS VIA API ***********************//
+    $username = config('constants.pendoadmin_passport.username');
+    $password = config('constants.pendoadmin_passport.password');
+    $send_sms_url = config('constants.bulk_sms.send_sms_url');
+    $pendoadmin_app_name = config('constants.settings.pendoadmin_app_name');
+    $token_url = config('constants.pendoadmin_passport.token_url');
+    $app_short_name = config('constants.settings.app_short_name');
+
+    //get app access token
+    $access_token = getAppAccessToken($pendoadmin_app_name, $token_url, $username, $password);
+    //dd($access_token);
+
+    //set params
+    $params = [
+        'json' => [
+            "sms_message"=> $data['sms_message'],
+            "phone_number"=> $data['phone_number'],
+            "sms_type_id"=> $data['sms_type_id'],
+            "company_id"=> $data['company_id'],
+            "sms_user_name"=> $data['sms_user_name']
+        ]
+    ];
+
+    /*$message_log = $access_token . "\n\n" . json_encode($params) . "\n\n";
+    log_this($message_log);*/
+    
+    //start create new sms 
+    $result = sendAuthPostApi($send_sms_url, $access_token, $params);
+
+    log_this(">>>>>>>>> SNB SEND SMS API RESULT HERE :\n\n" . json_encode($result) . "\n\n\n");
+
+    return $result;
+
+    //end create new sms
+    //******************* END SEND SMS VIA API ***********************//
 
 }
 
-//generate dates
-function generate_options($from,$to,$month=false)
-{
-    $reverse=false;
+function createConfirmCode($confirm_code, $phone, $phone_country, $sms_type_id, $user_id) {
 
-    if($from>$to)
-    {
-        $tmp=$from;
-        $from=$to;
-        $to=$tmp;
-        $reverse=true;
-    }
-    $return_string=array();
-    for($i=$from;$i<=$to;$i++)
-    {
-        $result ='<option value="'.$i.'">';
-		if ($month) { 
-			$result .=  callback_month($i);
-		} else {
-			$result .= $i;
-		}
-		$result .='</option>';
-		
-		$return_string[] = $result;
-    }
+    //start disable any previous sent registration sms to this number
+    $status_disabled = config('constants.status.disabled');
+    $status_active = config('constants.status.active');
 
-    if($reverse)
-    {
-        $return_string=array_reverse($return_string);
-    }
+    DB::table('confirm_codes')
+                    ->where('user_id', $user_id)
+                    ->where('phone', $phone)
+                    ->where('sms_type_id', $sms_type_id)
+                    ->update(['status_id' => $status_disabled]);
+    //end disable any previous sent registration sms to this number
 
-    return join('',$return_string);
+    //start create new sms confirm code            
+    $attributes['phone'] = $phone;
+    $attributes['phone_country'] = $phone_country;
+    $attributes['confirm_code'] = $confirm_code;
+    $attributes['status_id'] = $status_active;
+    $attributes['sms_type_id'] = $sms_type_id;
+    $attributes['user_id'] = $user_id;
+
+    ConfirmCode::create($attributes);
+    //end create new sms confirm code
 }
 
-function callback_month($month)
-{
-    return date('M',mktime(0,0,0,$month,1));
+//******************* START SMS API FUNCTIONS ********************//
+
+    function getAppAccessToken($app_name, $token_url, $username, $password) {
+    
+        //get app's access token
+        //check if session data exists, use it if so
+        $access_token = "";
+        $refresh_token = "";
+        $access_token_expires_in = "";
+        $access_token_expires_time = ""; 
+
+        //fetch user tokens data
+        //$access_token_data = UserAccessToken::where('app_name', $app_name)->first();
+        $access_token_data = DB::table('user_access_tokens')->where('app_name', $app_name)->first();
+        
+        if ($access_token_data) {
+            $access_token = $access_token_data->access_token;
+            $refresh_token = $access_token_data->refresh_token;
+            $access_token_expires_in = $access_token_data->expires_in;
+            $access_token_expires_time = $access_token_data->expires_time;
+        }
+
+        if ($access_token) {
+            
+            $current_time = time();
+            //if current time is less than expires time, fetch new token
+            if ($current_time > ($access_token_expires_time)) {
+                //fetch new access token
+                $access_token = prepare_access_token($app_name, $token_url, $username, $password);
+            } 
+            
+        } else {
+            
+            $access_token = prepare_access_token($app_name, $token_url, $username, $password);
+
+        }
+
+        return $access_token;
+
+    }
+
+    //start get app access token
+    function prepare_access_token($app_name, $token_url, $username, $password)
+    {
+        
+        try
+        {
+            $body = [
+                'json' => [
+                    "username" => $username,
+                    "password" => $password
+                ]
+            ];
+
+            $url = $token_url; 
+            $dataclient = getTokenGuzzleClient();
+            $response = $dataclient->request('POST', $url, $body);
+            $result = json_decode($response->getBody());
+
+            //start store token in access tokens table
+            $access_token_data = UserAccessToken::where('app_name', $app_name)->first();
+            
+            if ($access_token_data) { 
+                
+                //update access token data
+                //minus 11000 seconds to expiry time (locale allowance(+3hrs = 3600 * 3 = 10800) to expiry)
+                $response = $access_token_data->update([
+                                'access_token'      => $result->access_token,
+                                'refresh_token'     => $result->refresh_token,
+                                'expires_in'        => $result->expires_in,
+                                'expires_time'      => (time() + $result->expires_in) - 11000
+                            ]);
+
+            } else {
+                
+                //create new record
+                $user_access_token = new UserAccessToken(); 
+                    
+                    $user_access_token->app_name = $app_name; 
+                    $user_access_token->access_token = $result->access_token;
+                    $user_access_token->refresh_token = $result->refresh_token;   
+                    $user_access_token->expires_in = $result->expires_in; 
+                    $user_access_token->expires_time = time() + $result->expires_in - 11000;
+
+                $user_access_token->save();
+                //end create new record
+
+            }
+            //end store token in access tokens table
+
+            //return access_token
+            return $result->access_token; 
+            
+        } catch (RequestException $e) {
+            $message = "$url == $username == $password == $e";
+            log_this($message);
+            $response = handleAccessTokenError($e, $url, $username, $password);
+            return $response;
+        }
+
+    }
+    //end get pendoapi access token
+
+    //send params with access_token to api
+    function sendAuthPostApi($url, $token, $params)
+    {
+        try
+        {
+            $dataclient = getGuzzleClient($token);
+            $response = $dataclient->request('POST', $url, $params);
+            $result = $response->getBody()->getContents();
+            return $result;
+        } catch (RequestException $e) {
+            return handleGuzzleError($e);
+        }
+    }
+
+    //send params with access_token to api via GET
+    function sendAuthGetApi($url, $token, $params)
+    {
+        try
+        {
+            $dataclient = getGuzzleClient($token);
+            $response = $dataclient->request('GET', $url, $params);
+            $result = $response->getBody()->getContents();
+            return $result;
+        } catch (RequestException $e) {
+            return handleGuzzleError($e);
+        }
+    }
+
+  //start handle guzzle errors
+    function handleAccessTokenError($e, $url, $username, $password)
+    {
+        $status_code = $e->getResponse()->getStatusCode();
+        if ($status_code == 400)
+        {
+            prepare_access_token($username, $password);
+        }
+    }
+
+    function handleGuzzleError(RequestException $e) {
+
+        //$response_message = Psr7\str($e->getResponse());
+        //$status_code = $e->getResponse()->getStatusCode();
+        $message = $e->getMessage();
+
+        $response["error"] = true;
+        //$response["status_code"] = $status_code;
+        $response["message"] = $message;
+
+        return $response;
+    }
+    //end handle guzzle errors
+
+
+//******************* END SMS API FUNCTIONS ********************//
+
+
+function createSmsOutbox($message, $phone, $sms_type_id='6') {
+    
+    $app_mode = config('constants.settings.app_mode');
+    $app_short_name = config('constants.settings.app_short_name');
+    $sms_user_name = config('constants.bulk_sms.usr');
+    $company_id = config('constants.bulk_sms.company_id');
+
+    //if we are in test mode, dont send sms, save to log file
+    if ($app_mode == 'test') {
+        
+        $message_log = "\n\n************************************ SNB TEST SMS MSG ************************************\n\n\n";
+        $message_log .= "Phone:\t\t\t\t" . $phone . "\n";
+        $message_log .= "\n\sms_user_name:\t\t\t" . $sms_user_name . "\n";
+        $message_log .= "\n\company_id:\t\t\t" . $company_id . "\n";
+        $message_log .= "Message:\t\t\t" . $message . "\n\n\n";
+        $message_log .= "************************************ SNB TEST SMS MSG ************************************\n\n\n\n\n\n\n\n\n";
+
+        //save the log file
+        log_this($message_log);
+        $result = $message_log;
+
+    } else {
+
+        //start create new outbox 
+        $sms_attributes['message'] = $message;
+        $sms_attributes['company_id'] = $company_id;
+        $sms_attributes['sms_user_name'] = $sms_user_name;
+        $sms_attributes['sms_type_id'] = $sms_type_id;
+        $sms_attributes['phone_number'] = $phone;
+        $sms_attributes['created_by'] = $company_id;
+        $sms_attributes['updated_by'] = $company_id;
+
+        $smsoutbox = new SmsOutbox();
+        $result = $smsoutbox->create($sms_attributes);
+        //end create new outbox
+
+    }
+
+    return $result;
+
 }
 
-function getAllSiteSettings($name=NULL)
-{
-	
-	$settings = array();
+function log_this($lmsg, $logname='')
+{ 
 
-	$data = SiteSetting::select('name', 'text')
-            ->when($name, function($query) use ($name){
-                return $query->where('name', $name);
-            })
-            ->where('name', '!=' , '')
-            ->orderBy("name")
-            ->get();
-	
-	foreach ($data as $data_item) {
-		$field = $data_item->name;
-		$settings[$field] = $data_item->text;
-	}
-	
-	$response = json_encode($settings);
+    $app_short_name = config('constants.settings.app_short_name');
+    //set the log file name
+    if (!$logname) { $logname = $app_short_name; }
 
-	return $response;
-	
+    $date = Carbon::now();
+    $date = getLocalDate($date);
+    $short_date = $date->format('Ymd'); 
+    $full_date = $date->format('Y-m-d H:i:s T: '); 
+    
+    //write to the log file
+    //$ip_address = request()->ip;
+    $flog = sprintf("/data/log/" . $logname . "_%s.log", $short_date);
+    $tlog = sprintf("\n%s : %s", $full_date, $lmsg);
+    $f    = fopen($flog, "a");
+    fwrite($f, $tlog);
+    fclose($f);
+
+}
+
+function getHttpStatus($url) {
+	$http = curl_init($url);
+	// do your curl thing here
+	$result = curl_exec($http);
+	$http_status = curl_getinfo($http, CURLINFO_HTTP_CODE);
+	curl_close($http);
+	return $http_status;
+}
+
+function removeSpecialChars($data) {
+    //$remove_spaces_regex = "/\s+/";
+    $remove_spaces_regex = "/[^A-Za-z0-9\-]/";
+    //remove all spaces
+    return preg_replace($remove_spaces_regex, '', $request->sms_user_name);
 }
 
 /**
 * change plain number to formatted currency
-*
+
+/*generate user account number*/
+function generate_account_number($company_id, $user_cd, $group_id='', $account_type='') {
+	
+	//get the highest account number and add 1 to it
+	/*$accounts_data = DB::table('accounts')
+                     ->select(DB::raw('max(id) as account_id'))
+                     ->first();
+    $account_id = $accounts_data->account_id;
+
+    //get the account number
+    $account_details = Account::find($account_id);
+    $account_no = $account_details->account_no;
+
+    //get the account number part and add 1 to it
+    //$user_account_part = substr(trim($account_no),-6);
+    $user_account_part = substr($account_no, 6, 6);
+    //dd($account_no, $user_account_part);
+
+    //add +1 to get new account number sequence
+    $next_account_number = $user_account_part + 1;
+    $next_account_number = sprintf('%06d', $next_account_number);*/
+
+    //get company data to use in account number formulation
+    $company_data = Company::find($company_id);
+    $company_cd = $company_data->company_cd;
+
+    //get account type to use in account number formulation
+    if ($account_type) {
+    	$account_type_data = Product::find($account_type);
+    	$account_type_cd = $account_type_data->product_cd;
+    } else {
+    	$account_type_cd = config('constants.account_settings.default_account_type_cd');
+    }
+
+    //get group data to use in account number formulation
+    if ($group_id) {
+    	$group_data = Group::find($group_id);
+    	$group_cd = $group_data->group_cd;
+    } else {
+    	$group_cd = config('constants.account_settings.default_group_cd');
+    }
+
+    //formulate user cd
+    $next_account_number = sprintf('%06d', $user_cd);
+
+    //formulate new account number
+    //dd($company_cd, $group_cd, $next_account_number, $account_type_cd);
+    $account_number = $company_cd . $group_cd . $next_account_number . $account_type_cd;
+
+    return $account_number;
+
+}
+
+
+/*generate user account number*/
+function generate_user_cd() {
+	
+	//get the highest account number and add 1 to it
+	$users_data = DB::table('users')
+                     ->select(DB::raw('max(user_cd) as user_cd'))
+                     ->first();
+    $max_user_cd = $users_data->user_cd;
+
+    if ($max_user_cd) {
+	    //add +1 to get new account number sequence
+	    $next_user_cd = $max_user_cd + 1;
+	} else {
+	    //add +1 to get new account number sequence
+	    $next_user_cd = 1;
+	}
+
+    return $next_user_cd;
+
+}
+
+
+/*
 * @param $number
 * @param $currency
 */
@@ -155,41 +450,22 @@ function checkCharExists($char, $value) {
 	return false;
 }
 
-function resize($image, $width, $height='', $section='', $pre_name='thumb')
+function executeCurl($url, $method=NULL, $data_string = NULL)
 {
-    
-    try 
-    { 
-        
-        $extension      =   $image->getClientOriginalExtension();
-        $imageRealPath  =   $image->getRealPath();
-        $thumbName      =   $pre_name . '_' . $image->getClientOriginalName();
-
-        //$imageManager = new ImageManager(); // use this if you don't want facade style code
-        //$img = $imageManager->make($imageRealPath);
-
-        $img = Image::make($imageRealPath); // use this if you want facade style code
-        
-        //resize image 
-        //if width && height i.e. square
-        if ($width && !$height) {
-	        $img->resize(intval($width), null, function($constraint) {
-	             $constraint->aspectRatio();
-	        }); 
-	    } else {
-	    	$img->resize($width, $height);
-	    }
-        
-        if ($section) { $image_full_name .= '/'. $section; }
-        $image_full_name .= '/' . $thumbName;
-
-        return $img->save(public_path('images') . $image_full_name);
-
-    } catch(Exception $e) {
-
-        return false;
-
-    }
+    $curl = curl_init();
+    curl_setopt($curl, CURLOPT_URL, $url);
+    curl_setopt($curl, CURLOPT_HTTPHEADER, array(
+        'Content-Type:application/json',
+        'Authorization:Bearer ACCESS_TOKEN'
+    )); //setting custom header
+    //log_this(">>>>>>>>> CURL RESPONSE :\n\n$data_string");
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    if ($method == 'post') {
+        curl_setopt($curl, CURLOPT_POST, true);
+	    curl_setopt($curl, CURLOPT_POSTFIELDS, $data_string);
+	}
+	
+    return curl_exec($curl);
 
 }
 
@@ -219,8 +495,7 @@ function getDatabasePhoneNumber($phone_number, $country_code='KE') {
 
 //format for dialling in country
 function getForMobileDialingPhoneNumber($phone_number, $country_code='KE', $dialling_country_code='KE') {    
-	return PhoneNumber::make($phone_number, $country_code)
-	       ->formatForMobileDialingInCountry($dialling_country_code);
+	return PhoneNumber::make($phone_number, $country_code)->formatForMobileDialingInCountry($dialling_country_code);
 }
 
 //format phone number
@@ -271,6 +546,30 @@ function isValidPhoneNumber($phone_number) {
 	
 }
 
+function getAllSiteSettings($name=NULL)
+{
+    
+    $settings = array();
+
+    $data = SiteSetting::select('name', 'text')
+            ->when($name, function($query) use ($name){
+                return $query->where('name', $name);
+            })
+            ->where('name', '!=' , '')
+            ->orderBy("name")
+            ->get();
+    
+    foreach ($data as $data_item) {
+        $field = $data_item->name;
+        $settings[$field] = $data_item->text;
+    }
+    
+    $response = json_encode($settings);
+
+    return $response;
+    
+}
+
 //validate an email address
 function validateEmail($email) {
 
@@ -280,27 +579,29 @@ function validateEmail($email) {
 
 //format date
 function formatFriendlyDate($date) {
-	return Carbon\Carbon::parse($date)->format('d-M-Y, H:i');
+    if ($date) {
+        return Carbon::parse($date)->format('d-M-Y, H:i');
+    } else {
+        return null;
+    }
 }
 
 //format display date
 function formatDisplayDate($date) {
-	return Carbon\Carbon::parse($date)->format('d-M-Y');
+    if ($date) {
+        return Carbon::parse($date)->format('d-M-Y');
+    } else {
+        return null;
+    }
 }
 
-//format display day
-function formatDay($date) {
-	return Carbon\Carbon::parse($date)->day;
-}
-
-//format display month
-function formatMonth($date) {
-	return Carbon\Carbon::parse($date)->month;
-}
-
-//format display year
-function formatYear($date) {
-	return Carbon\Carbon::parse($date)->year;
+//format datepicker date
+function formatDatePickerDate($date) {
+	if ($date) {
+        return Carbon::parse($date)->format('d-m-Y');
+    } else {
+        return null;
+    }
 }
 
 //convert alphabet to num, e.g. A=1, B=2, Z=25, AA=26, ETC
@@ -441,24 +742,9 @@ function getUserAgent(){
 	return @$_SERVER["HTTP_USER_AGENT"]?$_SERVER["HTTP_USER_AGENT"]: "" ;
 }
 
-function getIp2(){
-	//Just get the headers if we can or else use the SERVER global
-	if ( function_exists( 'apache_request_headers' ) ) {
-		$headers = apache_request_headers();
-	} else {
-		$headers = $_SERVER;
-	}
-	//Get the forwarded IP if it exists
-	if ( array_key_exists( 'X-Forwarded-For', $headers ) && filter_var( $headers['X-Forwarded-For'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) ) {
-		$the_ip = $headers['X-Forwarded-For'];
-	} elseif ( array_key_exists( 'HTTP_X_FORWARDED_FOR', $headers ) && filter_var( $headers['HTTP_X_FORWARDED_FOR'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 )
-	) {
-		$the_ip = $headers['HTTP_X_FORWARDED_FOR'];
-	} else {
-		
-		$the_ip = filter_var( $_SERVER['REMOTE_ADDR'], FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 );
-	}
-	return $the_ip;
+function getIp(){
+	$ip = request()->ip();
+    return $ip;
 }
 
 function getHost() {
@@ -472,16 +758,10 @@ function getLocalDate($date) {
 	return Carbon::parse($date)->timezone($timezone);
 }
 
-function getCurrentDate() {
-	$date = Carbon::now();
-    return $date->toDateTimeString();
-}
-
 function getLocalTimezone() {
 	//get user timezone and return, 
 	//if blank return default timezone ('Africa/Nairobi')
 	//$location = getUserLocation();
-	//dd($location);
 	//$userTimezone=$location->timezone;
 	$userTimezone = '';
 	if ($userTimezone) {
@@ -490,15 +770,6 @@ function getLocalTimezone() {
 		$timezone = config('app.local_timezone');
 	}
 	return $timezone;
-}
-
-function getIp(){
-	$ip = request()->ip();
-    return $ip;
-}
-
-function getUserLocation(){
-    return geoip(getIp());
 }
 
 function getJsonOauthData() {
@@ -510,6 +781,40 @@ function getJsonOauthData() {
 				"client_secret"=> config('constants.oauth.client_secret'),
 				"username"=> config('constants.oauth.username'),
 				"password"=> config('constants.oauth.password'),
+				"scope"=> ""
+	        ]
+	    ];
+
+	return $data;
+
+}
+
+function getyehuJsonOauthData() {
+	
+	$data = [
+	        'json' => [
+	            "grant_type"=> "password",
+				"client_id"=> config('constants.yehuoauth.client_id'),
+				"client_secret"=> config('constants.yehuoauth.client_secret'),
+				"username"=> config('constants.yehuoauth.username'),
+				"password"=> config('constants.yehuoauth.password'),
+				"scope"=> ""
+	        ]
+	    ];
+
+	return $data;
+
+}
+
+function getBulkSmsJsonOauthData() {
+	
+	$data = [
+	        'json' => [
+	            "grant_type"=> "password",
+				"client_id"=> config('constants.bulk_sms.client_id'),
+				"client_secret"=> config('constants.bulk_sms.client_secret'),
+				"username"=> config('constants.bulk_sms.username'),
+				"password"=> config('constants.bulk_sms.password'),
 				"scope"=> ""
 	        ]
 	    ];
@@ -562,6 +867,7 @@ function getMpesaPayments($data) {
             $dataclient = getGuzzleClient($access_token);
             $respons = $dataclient->request('GET', $get_mpesa_data_url, [
                 'query' => $body
+                //,'http_errors' => false
             ]);
 
             if ($respons->getStatusCode() == 200) {
@@ -582,17 +888,300 @@ function getMpesaPayments($data) {
 
             }  
 
-        } catch (\Exception $e) {
-            dd($e);
+        } catch (RequestException $e) {
+
+            return handleGuzzleError($e);
+            //return $e;
+
         }
 
     } 
+	
+	//return $response; 
+	
+}
+
+
+// fetching local yehu deposits data
+function getLocalYehuDeposits($data) {
+
+	//dd($data);
+	$body = [];
+	//get bulk sms data for this client
+	$get_local_yehu_deposits_data_url = config('constants.yehu.getdepositslocal_url');
+	//dd($get_local_yehu_deposits_data_url);
+
+	//url params
+	if ($data->id) { $body['id'] = $data->id; }
+	if ($data->page) { $body['page'] = $data->page; }
+	if ($data->limit) { $body['limit'] = $data->limit; }
+	if ($data->report) { $body['report'] = $data->report; }
+	if ($data->paybills) { $body['paybills'] = $data->paybills; }
+	if ($data->phone_number) { $body['phone_number'] = $data->phone_number; }
+	if ($data->acct_no) { $body['acct_no'] = $data->acct_no; }
+	if ($data->bu_id) { $body['bu_id'] = $data->bu_id; }
+	if ($data->trans_id) { $body['trans_id'] = $data->trans_id; }
+	if ($data->processed) { $body['processed'] = $data->processed; }
+	if ($data->failed) { $body['failed'] = $data->failed; }
+	if ($data->start_date) { $body['start_date'] = $data->start_date; }
+	if ($data->end_date) { $body['end_date'] = $data->end_date; }
+
+	//dd($body);
+
+	//get sms urls
+	//$get_oauth_token_url = config('constants.yehuoauth.token_url');
+
+    //get oauth access token
+    //$tokenclient = getTokenGuzzleClient();
+
+    //$oauth_json_data = getYehuJsonOauthData();
+
+    //$resp = $tokenclient->request('POST', $get_oauth_token_url, $oauth_json_data); 
+
+    //if ($resp->getBody()) {
+    
+        /*$result = json_decode($resp->getBody());
+        $access_token = $result->access_token;
+        $refresh_token = $result->refresh_token;
+        */
+
+        try {
+
+            //send request to get mpesa
+            //$dataclient = getGuzzleClient($access_token);
+            $dataclient = getTokenGuzzleClient();
+            $respons = $dataclient->request('GET', $get_local_yehu_deposits_data_url, [
+                'query' => $body
+            ]);
+
+            if ($respons->getStatusCode() == 200) {
+
+                if ($respons->getBody()) {
+        
+                    $result = json_decode($respons->getBody());
+                    $response["error"] = false;
+					$response["message"] = $result;
+
+                } else {
+			
+					$response["error"] = true;
+					$response["message"] = "An error occured while fetching local yehu deposits data";
+					
+			    }
+
+			    return $response; 
+
+            }  
+
+        } catch (\Exception $e) {
+            
+            return handleGuzzleError($e);
+
+        }
+
+    //} 
 	
 	return $response; 
 	
 }
 
+// fetching remote yehu deposits data
+function getRemoteYehuDeposits($data) {
+
+	$body = [];
+	//get yehu deposit
+	$get_yehu_deposits_data_url = config('constants.yehu.getdepositsremote_url');
+
+	//url params
+	if ($data->id) { $body['id'] = $data->id; }
+	if ($data->page) { $body['page'] = $data->page; }
+	if ($data->limit) { $body['limit'] = $data->limit; }
+	if ($data->report) { $body['report'] = $data->report; }
+	if ($data->paybills) { $body['paybills'] = $data->paybills; }
+	if ($data->phone_number) { $body['phone_number'] = $data->phone_number; }
+	if ($data->acct_no) { $body['acct_no'] = $data->acct_no; }
+	if ($data->bu_id) { $body['bu_id'] = $data->bu_id; }
+	if ($data->trans_id) { $body['trans_id'] = $data->trans_id; }
+	if ($data->processed) { $body['processed'] = $data->processed; }
+	if ($data->failed) { $body['failed'] = $data->failed; }
+	if ($data->start_date) { $body['start_date'] = $data->start_date; }
+	if ($data->end_date) { $body['end_date'] = $data->end_date; }
+
+	//get sms urls
+	//$get_oauth_token_url = config('constants.yehuoauth.token_url');
+
+    //get oauth access token
+    //$tokenclient = getTokenGuzzleClient();
+
+    //$oauth_json_data = getYehuJsonOauthData();
+
+    //$resp = $tokenclient->request('POST', $get_oauth_token_url, $oauth_json_data); 
+
+    //if ($resp->getBody()) {
+    
+        /*$result = json_decode($resp->getBody());
+        $access_token = $result->access_token;
+        $refresh_token = $result->refresh_token;
+        */
+
+        try {
+
+            //send request to get mpesa
+            //$dataclient = getGuzzleClient($access_token);
+            $dataclient = getTokenGuzzleClient();
+            $respons = $dataclient->request('GET', $get_yehu_deposits_data_url, [
+                'query' => $body 
+                //, 'http_errors' => false
+            ]);
+
+            if ($respons->getStatusCode() == 200) {
+
+                if ($respons->getBody()) {
+        
+                    $result = json_decode($respons->getBody());
+                    $response["error"] = false;
+					$response["message"] = $result;
+
+                } else {
+			
+					$response["error"] = true;
+					$response["message"] = "An error occured while fetching remote yehu deposits data";
+					
+			    }
+
+			    return $response; 
+
+            }  
+
+        } catch (RequestException $e) {
+
+            return handleGuzzleError($e);
+            //return $e;
+
+        }
+
+    //} 
+	
+}
+
+//update existing local yehu deposit
+function updateYehuDeposit($id, $data) {
+	
+	//update yehu deposit
+	$update_yehu_deposit_data_url = config('constants.yehu.update_depositlocal_url');
+	$update_yehu_deposit_data_url .=  "/" . $id;
+
+	$user_full_names = auth()->user()->first_name . ' ' . auth()->user()->last_name;
+	$user_full_names = trim($user_full_names);
+
+	if ($data->acct_no) { $body['acct_no'] = $data->acct_no; }
+	$body['updated_by'] = $user_full_names;
+
+	//dd($update_yehu_deposit_data_url, $body);
+
+	try {
+
+            //send request to save deposit
+            $dataclient = getTokenGuzzleClient();
+            $respons = $dataclient->request('PUT', $update_yehu_deposit_data_url, [
+                'query' => $body 
+            ]);
+
+            if ($respons->getStatusCode() == 200) {
+
+                if ($respons->getBody()) {
+        
+                    $result = json_decode($respons->getBody());
+                    $response["error"] = false;
+					$response["message"] = $result;
+
+                } else {
+			
+					$response["error"] = true;
+					$response["message"] = "An error occured while updating local yehu deposits data";
+					
+			    }
+
+			    return $response; 
+
+            }  
+
+        } catch (RequestException $e) {
+
+            return handleGuzzleError($e);
+
+        }
+
+}
+
+//create remote yehu deposit
+function createYehuDeposit($data) {
+	
+	//update yehu deposit
+	$create_yehu_deposit_data_url = config('constants.yehu.create_depositremote_url');
+
+	$user_full_names = auth()->user()->first_name . ' ' . auth()->user()->last_name;
+	$user_full_names = trim($user_full_names);
+
+	if ($data->id) { $body['id'] = $data->id; }
+	if ($data->acct_no) { $body['acct_no'] = $data->acct_no; }
+	if ($data->amount) { $body['amount'] = $data->amount; }
+	if ($data->paybill_number) { $body['paybill_number'] = $data->paybill_number; }
+	if ($data->full_name) { $body['full_name'] = $data->full_name; }
+	if ($data->phone_number) { $body['phone_number'] = $data->phone_number; }
+	if ($data->src_ip) { $body['src_ip'] = $data->src_ip; }
+	if ($data->trans_id) { $body['trans_id'] = $data->trans_id; }
+	$body['updated_by'] = $user_full_names;
+	//dd($create_yehu_deposit_data_url, $body);
+
+	try {
+
+        //send request to save deposit
+        $dataclient = getTokenGuzzleClient();
+        $respons = $dataclient->request('POST', $create_yehu_deposit_data_url, [
+            'query' => $body 
+        ]);
+        //dd($respons);
+
+        if ($respons->getStatusCode() == 200) {
+
+            if ($respons->getBody()) {
+    
+                $result = json_decode($respons->getBody());
+                $response["error"] = false;
+				$response["message"] = $result;
+
+            } else {
+		
+				$response["error"] = true;
+				$response["message"] = "An error occured while creating remote yehu deposit";
+				
+		    }
+
+		    return $response; 
+
+        }  
+
+    } catch (RequestException $e) {
+
+        return handleGuzzleError($e);
+
+    }
+
+}
+
+
 // fetching bulk sms data
+function getCompanyBulkSMSData($company_id) {
+	
+	$company_data = Company::find($company_id);
+	$sms_user_name = $company_data->sms_user_name;
+	$data = getRealSMSData($sms_user_name);
+
+	return $data;
+
+}
+
 function getBulkSMSData($user_id) {
 		
 	$user = User::where('id', $user_id)
@@ -603,6 +1192,23 @@ function getBulkSMSData($user_id) {
 	if ($user->company) {
 		$sms_user_name = $user->company->sms_user_name;
 	}
+
+	$data = getRealSMSData($sms_user_name);
+
+	return $data;
+
+}
+
+function getRealSMSData($sms_user_name) {
+		
+	/*$user = User::where('id', $user_id)
+		->with('company')
+		->first();
+	
+	$sms_user_name = "";
+	if ($user->company) {
+		$sms_user_name = $user->company->sms_user_name;
+	}*/
 	//$sms_user_name = "steve";
 
 	if ($sms_user_name) {
@@ -692,6 +1298,7 @@ function getBulkSMSData($user_id) {
 	
 }
 
+
 //send sms
 function sendSms($params) {
 
@@ -760,7 +1367,9 @@ function sendSms($params) {
             }  
 
         } catch (\Exception $e) {
-            dd($e);
+
+            return handleGuzzleError($e);
+
         }
 
     }

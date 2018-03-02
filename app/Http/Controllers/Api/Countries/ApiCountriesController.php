@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Api\Countries;
 
 use App\Entities\Country;
 use App\Http\Controllers\Controller;
-use App\Transformers\Countries\CountryTransformer;
+use App\Services\Country\CountryIndex;
+use App\Transformers\Country\CountryTransformer;
 use Carbon\Carbon;
 use Dingo\Api\Exception\StoreResourceFailedException;
 use Dingo\Api\Http\Response\paginator;
@@ -37,33 +38,30 @@ class ApiCountriesController extends Controller
     public function __construct(Country $model)
     {
         $this->model = $model;
-
-        $this->middleware('permission:Create acls')->only('store');
-        $this->middleware('permission:Update acls')->only('update');
-        $this->middleware('permission:Delete acls')->only('destroy');
     }
 
     /**
-     * Returns the Users resource with the roles relation.
-     *
-     * @param Request $request
-     * @return mixed
+     * Display a listing of the resource.
      */
-    public function index(Request $request)
+    public function index(Request $request, CountryIndex $countryIndex)
     {
 
+        //get the data
+        $data = $countryIndex->getCountries($request);
+
         //are we in report mode?
-        $report = $request->report;
+        if (!$request->report) {
 
-        $countries = Country::all();
-        
-        /*if (!$report) {
-            $countries = $countries->paginate('limit', $request->get('limit', config('app.pagination_limit')));
+            $data = $this->response->paginator($data, new CountryTransformer());
 
-            return $this->response->paginator($countries, new CountryTransformer());
-        }*/
+        } else {
 
-        return $this->response->collection($countries, new CountryTransformer);
+            $data = $data->get();
+            $data = $this->response->collection($data, new CountryTransformer());
+
+        }
+
+        return $data;
 
     }
 
@@ -75,56 +73,84 @@ class ApiCountriesController extends Controller
     {
         $user = $this->model->findOrFail($id);
 
-        return $this->response->item($user, new UserTransformer());
+        return $this->response->item($user, new CountryTransformer());
     }
 
     /**
      * @param Request $request
      * @return mixed
-     */
+    */
     public function store(Request $request)
     {
 
-    }
-
-    /**
-     * @param Request $request
-     * @param $uuid
-     * @return mixed
-     */
-    public function update(Request $request, $uuid)
-    {
-        $user = $this->model->byUuid($uuid)->firstOrFail();
         $rules = [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,'.$user->id,
+            'sortname' => 'required',
+            'phonecode' => 'required|integer'
         ];
-        if ($request->method() == 'PATCH') {
-            $rules = [
-                'name' => 'sometimes|required',
-                'email' => 'sometimes|required|email|unique:users,email,'.$user->id,
-            ];
-        }
-        $this->validate($request, $rules);
-        // Except password as we don't want to let the users change a password from this endpoint
-        $user->update($request->except('_token', 'password'));
-        if ($request->has('roles')) {
-            $user->syncRoles($request['roles']);
+
+        $payload = app('request')->only('name', 'sortname', 'phonecode');
+        $validator = app('validator')->make($payload, $rules);
+
+        if ($validator->fails()) {
+            throw new StoreResourceFailedException($validator->errors());
         }
 
-        return $this->response->item($user->fresh(), new UserTransformer());
+        //create item
+        $this->model->create($request->all());
+
+        return ['message' => 'Country created.'];
+
     }
 
     /**
      * @param Request $request
-     * @param $uuid
+     * @param $id
      * @return mixed
-     */
-    public function destroy(Request $request, $uuid)
+    */
+    public function update(Request $request, $id)
     {
-        $user = $this->model->byUuid($uuid)->firstOrFail();
-        $user->delete();
+
+        $rules = [
+            'name' => 'required',
+            'sortname' => 'required',
+            'phonecode' => 'required|integer'
+        ];
+
+        $payload = app('request')->only('name', 'sortname', 'phonecode');
+        $validator = app('validator')->make($payload, $rules);
+
+        if ($validator->fails()) {
+            throw new StoreResourceFailedException($validator->errors());
+        }
+        
+        // update data fields
+        $this->model->updatedata($id, $request->all());
+
+        return $this->response->item($item->fresh(), new CountryTransformer());
+
+    }
+
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @return mixed
+    */
+    public function destroy(Request $request, $id)
+    {
+        
+        $user_id = auth()->user()->id;
+
+        $item = $this->model->findOrFail($id);
+        
+        if ($item) {
+            //update deleted by field
+            $item->update(['deleted_by' => $user_id]);
+            $result = $item->delete();
+        }
 
         return $this->response->noContent();
     }
+
 }

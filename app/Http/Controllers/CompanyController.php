@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 class CompanyController extends Controller
 {
+    
     /**
      * Create a new controller instance.
      *
@@ -51,7 +52,7 @@ class CompanyController extends Controller
         $user_id = auth()->user()->id;
 
         $this->validate($request, [
-            'name' => 'required|max:255',
+            'name' => 'unique:companies|required|max:255',
             'phone_number' => 'required|max:13',
             'sms_user_name' => 'sometimes|unique:companies'
         ]);
@@ -77,6 +78,7 @@ class CompanyController extends Controller
         $company->sms_user_name = $sms_user_name;
         $company->physical_address = $request->physical_address;
         $company->box = $request->box;
+        $company->company_no = $request->company_no;
         $company->created_by = $user_id;
         $company->updated_by = $user_id;
         $company->save();
@@ -96,11 +98,7 @@ class CompanyController extends Controller
     {
         
         $company = Company::where('id', $id)
-                  ->with('groups')
-                  ->with('users')
                   ->first();
-
-        //dd($company);
 
         return view('companies.show')->withCompany($company);
 
@@ -133,8 +131,10 @@ class CompanyController extends Controller
         
         $user_id = auth()->user()->id;
 
+        $company = Company::findOrFail($id);
+
         $this->validate($request, [
-            'name' => 'required|max:255',
+            'name' => 'required|max:255|unique:companies,name,'.$company->id,
             'phone_number' => 'required|max:13',
             'sms_user_name' => 'sometimes'
         ]);
@@ -153,13 +153,14 @@ class CompanyController extends Controller
         //remove all spaces
         $sms_user_name = preg_replace($remove_spaces_regex, '', $request->sms_user_name);
 
-        $company = Company::findOrFail($id);
+        //update company record
         $company->name = $request->name;
         $company->phone_number = $phone_number;
         $company->email = $request->email;
         $company->sms_user_name = $sms_user_name;
         $company->physical_address = $request->physical_address;
         $company->box = $request->box;
+        $company->company_no = $request->company_no;
         $company->updated_by = $user_id;
         $company->save();
 
@@ -178,4 +179,5 @@ class CompanyController extends Controller
     {
         //
     }
+
 }

@@ -49,8 +49,8 @@
     'log' => 'single',
     'log_level' => 'debug',
     'pagination_limit' => 20,
-    'password_client_id' => '2',
-    'password_client_secret' => 'Cps7n1BznvRHUZIthbU7GHpNazxRHNIoLFgyU48k',
+    'password_client_id' => '',
+    'password_client_secret' => '',
     'cache_minutes' => '5',
     'cache_minutes_low' => '60',
     'providers' => 
@@ -86,12 +86,11 @@
       28 => 'Jenssegers\\Agent\\AgentServiceProvider',
       29 => 'Optimus\\ApiConsumer\\Provider\\LaravelServiceProvider',
       30 => 'Intervention\\Image\\ImageServiceProvider',
-      31 => 'Anhskohbo\\NoCaptcha\\NoCaptchaServiceProvider',
-      32 => 'App\\Providers\\AppServiceProvider',
-      33 => 'App\\Providers\\AuthServiceProvider',
-      34 => 'App\\Providers\\EventServiceProvider',
-      35 => 'App\\Providers\\RouteServiceProvider',
-      36 => 'App\\Providers\\ErrorHandlerServiceProvider',
+      31 => 'App\\Providers\\AppServiceProvider',
+      32 => 'App\\Providers\\AuthServiceProvider',
+      33 => 'App\\Providers\\EventServiceProvider',
+      34 => 'App\\Providers\\RouteServiceProvider',
+      35 => 'App\\Providers\\ErrorHandlerServiceProvider',
     ),
     'aliases' => 
     array (
@@ -227,7 +226,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => '/Users/elishaomolo/Public/web/semesha/loans/ngosite/storage/framework/cache/data',
+        'path' => '/Users/elishaomolo/Public/web/semesha/loans/positiveimpact/storage/framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -259,6 +258,15 @@
     ),
     'prefix' => 'laravel',
   ),
+  'captcha' => 
+  array (
+    'secret' => '6LdArkkUAAAAAKdgBKARYaZ8vvbdRJDG6xd2i6Om',
+    'sitekey' => '6LdArkkUAAAAAPIlr7UUfhOMW55uPvCiOchDPECn',
+    'options' => 
+    array (
+      'timeout' => 2.0,
+    ),
+  ),
   'constants' => 
   array (
     'site' => 
@@ -284,7 +292,7 @@
       'send_sms_url' => 'http://41.215.126.10/api2/api/sms/sendsms',
       'get_sms_data_url' => 'http://41.215.126.10/api2/api/sms/getaccount',
       'src' => NULL,
-      'usr' => NULL,
+      'usr' => 'barddy',
       'pass' => NULL,
     ),
     'oauth' => 
@@ -396,19 +404,19 @@
         'host' => 'localhost',
         'port' => 11211,
       ),
-      'dir' => '/Users/elishaomolo/Public/web/semesha/loans/ngosite/storage/cache',
+      'dir' => '/Users/elishaomolo/Public/web/semesha/loans/positiveimpact/storage/cache',
     ),
     'properties' => 
     array (
-      'creator' => 'Maatwebsite',
-      'lastModifiedBy' => 'Maatwebsite',
+      'creator' => 'PendoAdmin',
+      'lastModifiedBy' => 'PendoAdmin',
       'title' => 'Spreadsheet',
       'description' => 'Default spreadsheet export',
       'subject' => 'Spreadsheet export',
-      'keywords' => 'maatwebsite, excel, export',
+      'keywords' => 'PendoAdmin, maatwebsite, excel, export',
       'category' => 'Excel',
-      'manager' => 'Maatwebsite',
-      'company' => 'Maatwebsite',
+      'manager' => 'PendoAdmin',
+      'company' => 'PendoAdmin',
     ),
     'sheets' => 
     array (
@@ -462,25 +470,25 @@
       ),
       'store' => 
       array (
-        'path' => '/Users/elishaomolo/Public/web/semesha/loans/ngosite/storage/exports',
+        'path' => '/Users/elishaomolo/Public/web/semesha/loans/positiveimpact/storage/exports',
         'returnInfo' => false,
       ),
       'pdf' => 
       array (
-        'driver' => 'mPDF',
+        'driver' => 'DomPDF',
         'drivers' => 
         array (
           'DomPDF' => 
           array (
-            'path' => '/Users/elishaomolo/Public/web/semesha/loans/ngosite/vendor/dompdf/dompdf/',
+            'path' => '/Users/elishaomolo/Public/web/semesha/loans/positiveimpact/vendor/dompdf/dompdf/',
           ),
           'tcPDF' => 
           array (
-            'path' => '/Users/elishaomolo/Public/web/semesha/loans/ngosite/vendor/tecnick.com/tcpdf/',
+            'path' => '/Users/elishaomolo/Public/web/semesha/loans/positiveimpact/vendor/tecnick.com/tcpdf/',
           ),
           'mPDF' => 
           array (
-            'path' => '/Users/elishaomolo/Public/web/semesha/loans/ngosite/vendor/mpdf/mpdf/',
+            'path' => '/Users/elishaomolo/Public/web/semesha/loans/positiveimpact/vendor/mpdf/mpdf/',
           ),
         ),
       ),
@@ -648,12 +656,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => '/Users/elishaomolo/Public/web/semesha/loans/ngosite/storage/app',
+        'root' => '/Users/elishaomolo/Public/web/semesha/loans/positiveimpact/storage/app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => '/Users/elishaomolo/Public/web/semesha/loans/ngosite/storage/app/public',
+        'root' => '/Users/elishaomolo/Public/web/semesha/loans/positiveimpact/storage/app/public',
         'url' => 'http://127.0.0.1//storage',
         'visibility' => 'public',
       ),
@@ -677,7 +685,7 @@
       'maxmind_database' => 
       array (
         'class' => 'Torann\\GeoIP\\Services\\MaxMindDatabase',
-        'database_path' => '/Users/elishaomolo/Public/web/semesha/loans/ngosite/storage/app/geoip.mmdb',
+        'database_path' => '/Users/elishaomolo/Public/web/semesha/loans/positiveimpact/storage/app/geoip.mmdb',
         'update_url' => 'https://geolite.maxmind.com/download/geoip/database/GeoLite2-City.mmdb.gz',
         'locales' => 
         array (
@@ -699,7 +707,7 @@
         'class' => 'Torann\\GeoIP\\Services\\IPApi',
         'secure' => true,
         'key' => NULL,
-        'continent_path' => '/Users/elishaomolo/Public/web/semesha/loans/ngosite/storage/app/continents.json',
+        'continent_path' => '/Users/elishaomolo/Public/web/semesha/loans/positiveimpact/storage/app/continents.json',
       ),
     ),
     'cache' => 'all',
@@ -732,7 +740,7 @@
   'laratrust' => 
   array (
     'use_morph_map' => false,
-    'use_teams' => true,
+    'use_teams' => false,
     'user_models' => 
     array (
       'users' => 'App\\User',
@@ -772,42 +780,29 @@
     array (
       'superadministrator' => 
       array (
-        'users' => 'c,r,u,d',
+        'user' => 'c,r,u,d',
         'acl' => 'c,r,u,d',
         'profile' => 'r,u',
         'sms' => 'c,r,u,d',
         'scheduled_sms' => 'c,r,u,d',
-        'groups' => 'c,r,u,d',
-        'companies' => 'c,r,u,d',
+        'group' => 'c,r,u,d',
+        'company' => 'c,r,u,d',
         'paybill' => 'c,r,u,d',
+        'loan' => 'c,r,u,d',
+        'account' => 'c,r,u,d',
+        'deposit_account' => 'c,r,u,d',
+        'loan_account' => 'c,r,u,d',
+        'loan_repayment' => 'c,r,u,d',
+        'loan_application' => 'c,r,u,d',
       ),
       'administrator' => 
       array (
-        'users' => 'c,r,u,d',
-        'profile' => 'r,u',
-        'sms' => 'c,r,u,d',
-        'scheduled_sms' => 'c,r,u,d',
-        'groups' => 'c,r,u,d',
-        'companies' => 'c,r,u,d',
-        'paybill' => 'r',
       ),
       'companyadministrator' => 
       array (
-        'users' => 'c,r,u,d',
-        'profile' => 'r,u',
-        'sms' => 'c,r,u,d',
-        'scheduled_sms' => 'c,r,u,d',
-        'groups' => 'c,r,u,d',
-        'paybill' => 'r',
       ),
-      'manager' => 
+      'companymanager' => 
       array (
-        'profile' => 'r,u',
-        'paybill' => 'r',
-      ),
-      'supervisor' => 
-      array (
-        'profile' => 'r,u',
       ),
     ),
     'permission_structure' => 
@@ -840,7 +835,7 @@
       'theme' => 'default',
       'paths' => 
       array (
-        0 => '/Users/elishaomolo/Public/web/semesha/loans/ngosite/resources/views/vendor/mail',
+        0 => '/Users/elishaomolo/Public/web/semesha/loans/positiveimpact/resources/views/vendor/mail',
       ),
     ),
   ),
@@ -909,7 +904,7 @@
     ),
     'stripe' => 
     array (
-      'model' => 'App\\Entities\\User',
+      'model' => 'App\\User',
       'key' => NULL,
       'secret' => NULL,
     ),
@@ -920,7 +915,7 @@
     'lifetime' => 120,
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => '/Users/elishaomolo/Public/web/semesha/loans/ngosite/storage/framework/sessions',
+    'files' => '/Users/elishaomolo/Public/web/semesha/loans/positiveimpact/storage/framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'store' => NULL,
@@ -939,9 +934,9 @@
   array (
     'paths' => 
     array (
-      0 => '/Users/elishaomolo/Public/web/semesha/loans/ngosite/resources/views',
+      0 => '/Users/elishaomolo/Public/web/semesha/loans/positiveimpact/resources/views',
     ),
-    'compiled' => '/Users/elishaomolo/Public/web/semesha/loans/ngosite/storage/framework/views',
+    'compiled' => '/Users/elishaomolo/Public/web/semesha/loans/positiveimpact/storage/framework/views',
   ),
   'cors' => 
   array (
@@ -962,14 +957,5 @@
     array (
     ),
     'maxAge' => 0,
-  ),
-  'captcha' => 
-  array (
-    'secret' => 'secret-key',
-    'sitekey' => 'site-key',
-    'options' => 
-    array (
-      'timeout' => 2.0,
-    ),
   ),
 );

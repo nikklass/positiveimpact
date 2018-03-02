@@ -26,7 +26,7 @@
                         <div class="footer-logo">
                             <figure>
                                 <a href="{{ route('site.home') }}">
-                                    <img src="images/footer/logo.png" alt="Positive Impact" height="78">
+                                    <img src="site/images/footer/logo.png" alt="Positive Impact" height="78">
                                 </a>
                             </figure>
                         </div>
@@ -118,7 +118,7 @@
                     <a href="{{ route('site.home') }}">PositiveImpact</a> {!! date('Y') !!}. 
                     All Rights Reserved.
                     &nbsp;
-                    <a href="http://showbiz.co.ke" target="_blank">Heavybit.</a>
+                    <a href="http://showbiz.co.ke" target="_blank">Heavybit Design.</a>
                 </p>
             </div>
         </div>

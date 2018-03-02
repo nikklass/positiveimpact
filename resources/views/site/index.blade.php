@@ -17,7 +17,7 @@
                 <ul>
                     <li data-index='rs-355' class="slide_show slide_1" data-transition='slidingoverlayright' data-slotamount='default' data-easein='default' data-easeout='default' data-masterspeed='default' data-rotate='0' data-saveperformance='off' data-title='Slide Boxes' data-description=''>
 
-                        <img src="images/slider/slider-1.jpg" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg">
+                        <img src="site/images/slider/slider-1.jpg" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg">
 
                         <div class="main_heading tp-caption tp-resizeme"
                              data-x="left" data-hoffset="0"
@@ -64,7 +64,7 @@
 
                     <li data-index='rs-356' class="slide_show slide_2" data-transition='slidingoverlayleft' data-slotamount='default' data-easein='default' data-easeout='default' data-masterspeed='default' data-rotate='0' data-saveperformance='off' data-title='Slide Slots vertical' data-description=''>
 
-                        <img src="images/slider/slider-2.jpg" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg">
+                        <img src="site/images/slider/slider-2.jpg" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg">
 
                         <div class="main_heading tp-caption tp-resizeme"
                              data-x="left" data-hoffset="0"
@@ -107,7 +107,7 @@
 
                     <!-- <li class="slide_show slide_3" data-index='rs-381' data-transition='slidingoverlaydown' data-slotamount='default' data-easein='default' data-easeout='default' data-masterspeed='default' data-rotate='0' data-saveperformance='off' data-title='3D Curtain Vertical' data-description=''>
 
-                        <img src="images/slider/slider-3.jpg" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg">
+                        <img src="site/images/slider/slider-3.jpg" alt="" data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" class="rev-slidebg">
 
                         <div class="main_heading tp-caption tp-resizeme"
                              data-x="left" data-hoffset="0"
@@ -170,7 +170,7 @@
                     <div class="single-item same-height">
                         <div class="img-holder">
                             <a href="causes-details.html">
-                                <figure><img src="images/cause/1.jpg" alt=""></figure>
+                                <figure><img src="site/images/cause/1.jpg" alt=""></figure>
                                 <div class="overlay">
                                 </div>
                             </a>
@@ -187,7 +187,7 @@
                     <div class="single-item same-height">
                         <div class="img-holder">
                             <a href="causes-details.html">
-                                <figure><img src="images/cause/2.jpg" alt=""></figure>
+                                <figure><img src="site/images/cause/2.jpg" alt=""></figure>
                                 <div class="overlay">
                                 </div>
                             </a>
@@ -204,7 +204,7 @@
                     <div class="single-item same-height">
                         <div class="img-holder">
                             <a href="causes-details.html">
-                                <figure><img src="images/cause/3.jpg" alt=""></figure>
+                                <figure><img src="site/images/cause/3.jpg" alt=""></figure>
                                 <div class="overlay">
                                 </div>
                             </a>
@@ -278,11 +278,11 @@
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="single-item same-height">
                         <div class="img-holder">
-                            <figure><img src="images/gallery/1.jpg" alt=""></figure>
+                            <figure><img src="site/images/gallery/1.jpg" alt=""></figure>
                             <div class="overlay">
                                 <div class="box">
                                     <div class="content">
-                                        <a href="images/gallery/1.jpg" class="fancybox"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                                        <a href="site/images/gallery/1.jpg" class="fancybox"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -292,11 +292,11 @@
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="single-item same-height">
                         <div class="img-holder">
-                            <figure><img src="images/gallery/2.jpg" alt=""></figure>
+                            <figure><img src="site/images/gallery/2.jpg" alt=""></figure>
                             <div class="overlay">
                                 <div class="box">
                                     <div class="content">
-                                        <a href="images/gallery/2.jpg" class="fancybox"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                                        <a href="site/images/gallery/2.jpg" class="fancybox"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -306,11 +306,11 @@
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="single-item same-height">
                         <div class="img-holder">
-                            <figure><img src="images/gallery/3.jpg" alt=""></figure>
+                            <figure><img src="site/images/gallery/3.jpg" alt=""></figure>
                             <div class="overlay">
                                 <div class="box">
                                     <div class="content">
-                                        <a href="images/gallery/3.jpg" class="fancybox"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                                        <a href="site/images/gallery/3.jpg" class="fancybox"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -320,11 +320,11 @@
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="single-item same-height">
                         <div class="img-holder">
-                            <figure><img src="images/gallery/4.jpg" alt=""></figure>
+                            <figure><img src="site/images/gallery/4.jpg" alt=""></figure>
                             <div class="overlay">
                                 <div class="box">
                                     <div class="content">
-                                        <a href="images/gallery/4.jpg" class="fancybox"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                                        <a href="site/images/gallery/4.jpg" class="fancybox"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -334,11 +334,11 @@
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="single-item same-height">
                         <div class="img-holder">
-                            <figure><img src="images/gallery/5.jpg" alt=""></figure>
+                            <figure><img src="site/images/gallery/5.jpg" alt=""></figure>
                             <div class="overlay">
                                 <div class="box">
                                     <div class="content">
-                                        <a href="images/gallery/5.jpg" class="fancybox"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                                        <a href="site/images/gallery/5.jpg" class="fancybox"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -348,11 +348,11 @@
                 <div class="col-md-4 col-sm-6 col-xs-12">
                     <div class="single-item same-height">
                         <div class="img-holder">
-                            <figure><img src="images/gallery/6.jpg" alt=""></figure>
+                            <figure><img src="site/images/gallery/6.jpg" alt=""></figure>
                             <div class="overlay">
                                 <div class="box">
                                     <div class="content">
-                                        <a href="images/gallery/6.jpg" class="fancybox"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
+                                        <a href="site/images/gallery/6.jpg" class="fancybox"><i class="fa fa-picture-o" aria-hidden="true"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -402,7 +402,7 @@
                     <div class="single-item same-height">
                         <div class="img-box">
                             <div class="img-holder">
-                                <figure><a href="{{ route('site.programs') }}"><img src="images/news/1.jpg" alt=""></a></figure>
+                                <figure><a href="{{ route('site.programs') }}"><img src="site/images/news/1.jpg" alt=""></a></figure>
                             </div>
                             <!-- <ul class="img-content text-center">
                                 <li><i class="fa fa-calendar" aria-hidden="true"></i>20 Jan, 2017</li>
@@ -425,7 +425,7 @@
                     <div class="single-item same-height">
                         <div class="img-box">
                             <div class="img-holder">
-                                <figure><a href="{{ route('site.programs') }}"><img src="images/news/2.jpg" alt=""></a></figure>
+                                <figure><a href="{{ route('site.programs') }}"><img src="site/images/news/2.jpg" alt=""></a></figure>
                             </div>
                             <!-- <ul class="img-content text-center">
                                 <li><i class="fa fa-calendar" aria-hidden="true"></i>20 Jan, 2017</li>
@@ -447,7 +447,7 @@
                     <div class="single-item same-height">
                         <div class="img-box">
                             <div class="img-holder">
-                                <figure><a href="{{ route('site.programs') }}"><img src="images/news/3.jpg" alt=""></a></figure>
+                                <figure><a href="{{ route('site.programs') }}"><img src="site/images/news/3.jpg" alt=""></a></figure>
                             </div>
                             <!-- <ul class="img-content text-center">
                                 <li><i class="fa fa-calendar" aria-hidden="true"></i>20 Jan, 2017</li>
@@ -480,7 +480,7 @@
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="single-item">
                         <div class="img-holder">
-                            <figure><img src="images/team/1.jpg" alt=""></figure>
+                            <figure><img src="site/images/team/1.jpg" alt=""></figure>
                             <div class="overlay">
                                 <div class="box">
                                     <div class="content">
@@ -505,7 +505,7 @@
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="single-item">
                         <div class="img-holder">
-                            <figure><img src="images/team/2.jpg" alt=""></figure>
+                            <figure><img src="site/images/team/2.jpg" alt=""></figure>
                             <div class="overlay">
                                 <div class="box">
                                     <div class="content">
@@ -530,7 +530,7 @@
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="single-item">
                         <div class="img-holder">
-                            <figure><img src="images/team/3.jpg" alt=""></figure>
+                            <figure><img src="site/images/team/3.jpg" alt=""></figure>
                             <div class="overlay">
                                 <div class="box">
                                     <div class="content">
@@ -555,7 +555,7 @@
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="single-item">
                         <div class="img-holder">
-                            <figure><img src="images/team/4.jpg" alt=""></figure>
+                            <figure><img src="site/images/team/4.jpg" alt=""></figure>
                             <div class="overlay">
                                 <div class="box">
                                     <div class="content">
@@ -597,7 +597,7 @@
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Enim ad minim veniam quis nostrud exercitation ullamco laboris nisiut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit.</p>
                             </div>
                             <div class="testimonials-autor">
-                                <figure><img src="images/home/tes-autor.png" alt=""></figure>
+                                <figure><img src="site/images/home/tes-autor.png" alt=""></figure>
                                 <div class="autor">Samanta Doe</div>
                                 <span>Member</span>
                             </div>
@@ -607,7 +607,7 @@
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Enim ad minim veniam quis nostrud exercitation ullamco laboris nisiut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit.</p>
                             </div>
                             <div class="testimonials-autor">
-                                <figure><img src="images/home/tes-autor.png" alt=""></figure>
+                                <figure><img src="site/images/home/tes-autor.png" alt=""></figure>
                                 <div class="autor">Samanta Doe</div>
                                 <span>Member</span>
                             </div>
@@ -617,7 +617,7 @@
                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.Enim ad minim veniam quis nostrud exercitation ullamco laboris nisiut aliquip ex ea commodo consequat.Duis aute irure dolor in reprehenderit.</p>
                             </div>
                             <div class="testimonials-autor">
-                                <figure><img src="images/home/tes-autor.png" alt=""></figure>
+                                <figure><img src="site/images/home/tes-autor.png" alt=""></figure>
                                 <div class="autor">Samanta Doe</div>
                                 <span>Member</span>
                             </div>
@@ -637,24 +637,24 @@
                 <div class="title"><p>Cupidatat non proident sunt in culpa qui officia deserunt mollit</p></div>
             </div>
             <ul class="sponsors-slider">
-                <li><a href="#"><figure><img src="images/sponsors/1.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/2.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/3.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/4.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/5.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/6.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/1.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/2.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/3.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/4.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/5.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/6.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/1.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/2.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/3.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/4.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/5.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/6.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/1.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/2.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/3.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/4.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/5.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/6.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/1.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/2.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/3.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/4.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/5.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/6.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/1.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/2.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/3.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/4.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/5.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/6.png" alt=""></figure></a></li>
             </ul>
         </div>
     </section> -->
@@ -789,22 +789,22 @@
 
 @section('page_css')
 
-    <link rel="stylesheet" href='./css/revolution-slider.css'> 
+    <link rel="stylesheet" href='./site/css/revolution-slider.css'> 
 
 @endsection
 
 
 @section('page_scripts')
 
-    <script src= './js/jquery.themepunch.tools.min.js'></script>
-    <script src= './js/jquery.themepunch.revolution.min.js'></script>
-    <script src= './js/revolution.extension.slideanims.min.js'></script>
-    <script src= './js/revolution.extension.layeranimation.min.js'></script>
-    <script src= './js/revolution.extension.navigation.min.js'></script>
-    <script src= './js/revolution.extension.kenburn.min.js'></script>
-    <script src= './js/revolution.extension.actions.min.js'></script>
-    <script src= './js/revolution.extension.parallax.min.js'></script>
-    <script src= './js/revolution.extension.migration.min.js'></script>
+    <script src= './site/js/jquery.themepunch.tools.min.js'></script>
+    <script src= './site/js/jquery.themepunch.revolution.min.js'></script>
+    <script src= './site/js/revolution.extension.slideanims.min.js'></script>
+    <script src= './site/js/revolution.extension.layeranimation.min.js'></script>
+    <script src= './site/js/revolution.extension.navigation.min.js'></script>
+    <script src= './site/js/revolution.extension.kenburn.min.js'></script>
+    <script src= './site/js/revolution.extension.actions.min.js'></script>
+    <script src= './site/js/revolution.extension.parallax.min.js'></script>
+    <script src= './site/js/revolution.extension.migration.min.js'></script>
 
 @endsection 
 

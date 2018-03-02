@@ -58,15 +58,15 @@ return array(
     ],
 
     'properties' => [
-        'creator'        => 'Maatwebsite',
-        'lastModifiedBy' => 'Maatwebsite',
+        'creator'        => 'PendoAdmin',
+        'lastModifiedBy' => 'PendoAdmin',
         'title'          => 'Spreadsheet',
         'description'    => 'Default spreadsheet export',
         'subject'        => 'Spreadsheet export',
-        'keywords'       => 'maatwebsite, excel, export',
+        'keywords'       => 'PendoAdmin, maatwebsite, excel, export',
         'category'       => 'Excel',
-        'manager'        => 'Maatwebsite',
-        'company'        => 'Maatwebsite',
+        'manager'        => 'PendoAdmin',
+        'company'        => 'PendoAdmin',
     ],
 
     /*
@@ -299,7 +299,7 @@ return array(
             |--------------------------------------------------------------------------
             | Supported: DomPDF, tcPDF, mPDF
             */
-            'driver'  => 'mPDF',
+            'driver'  => 'DomPDF',
 
             /*
             |--------------------------------------------------------------------------

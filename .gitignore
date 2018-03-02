@@ -10,3 +10,5 @@ Homestead.yaml
 npm-debug.log
 .env
 /resources/assets/js/.env
+/.gitpush.sh
+/.gitpull.sh

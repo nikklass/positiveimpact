@@ -53,13 +53,13 @@ class SmsOutboxController extends Controller
 
             //companies used to fetch remote data
             if (!count($companies_array)) {
-                $companies_array = Company::where('company_id', $user_company_id)
+                $companies_array = Company::where('id', $user_company_id)
                         ->pluck('id')
                         ->toArray();
             }
 
             //get companies for showing in dropdown
-            $companies = Company::where('company_id', $user_company_id)
+            $companies = Company::where('id', $user_company_id)
                         ->get();
 
         } else {
@@ -213,9 +213,13 @@ class SmsOutboxController extends Controller
 
         }
 
+
+
         //get bulk sms data
         $bulk_sms_data = getBulkSMSData($user->id); 
         $error = $bulk_sms_data['error'];
+
+        //dd($bulk_sms_data);
         
         if (!$error) 
         {
@@ -317,7 +321,7 @@ class SmsOutboxController extends Controller
                         
                         //init sms_message in each loop
                         $local_sms_message = $sms_message;
-                        $local_phone_number = null;
+                        $local_phone_number = null; 
                         
                         //get values from excel and map to sms_message
                         //loop thru headers and get values assigned in $data array
@@ -350,13 +354,13 @@ class SmsOutboxController extends Controller
                         // send sms
                         if ($request->sendSmsCheckBox == 'now') {
 
-                            $params['usr'] = $usr;
+                            /*$params['usr'] = $usr;
                             $params['pass'] = $pass;
                             $params['src'] = $src;
                             $params['phone_number'] = $local_phone_number;
                             $params['sms_message'] = $local_sms_message;
 
-                            $response = sendSms($params);
+                            $response = sendSms($params);*/
 
                             //format local phone number
                             $local_phone_number = formatPhoneNumber($local_phone_number);
@@ -372,30 +376,13 @@ class SmsOutboxController extends Controller
                                 }
                             }  
 
-                            //dd($response);                      
-
-                            if (!$response['error']) {
-
-                                //create new outbox
-                                $smsoutbox = new SmsOutbox();
-                                $smsoutbox->message = $local_sms_message;
-                                $smsoutbox->short_message = reducelength($local_sms_message, 45);
-                                $smsoutbox->user_id = $local_user_id;
-                                $smsoutbox->phone_number = $local_phone_number;
-                                $smsoutbox->company_id = $request->company_id;
-                                $smsoutbox->sms_user_name = $usr;
-                                $smsoutbox->user_agent = getUserAgent();
-                                $smsoutbox->src_ip = getIp();
-                                $smsoutbox->src_host = getHost();
-                                $smsoutbox->created_by = $user_id;
-                                $smsoutbox->updated_by = $user_id;
-                                $smsoutbox->save();
-
-                            } else {
-
-                                //$errors['sms'] = $response->message;
-
-                            }
+                            //start create new outbox
+                            $message = $local_sms_message;
+                            $phone = $local_phone_number;
+                            $company_id = $request->company_id;
+                            $sms_user_name = $usr;
+                            createSmsOutbox($message, $phone, $company_id, $sms_user_name);
+                            //end create new outbox
 
                         } else {
                             
@@ -443,22 +430,22 @@ class SmsOutboxController extends Controller
 
                     if ($request->sendSmsCheckBox == 'now') {
 
-                        $params['usr'] = $usr;
+                        /*$params['usr'] = $usr;
                         $params['pass'] = $pass;
                         $params['src'] = $src;
                         $params['phone_number'] = $user->phone_number;
-                        $params['sms_message'] = $request->sms_message;
+                        $params['sms_message'] = $request->sms_message;*/
                         //dump($params);
 
                         //$response['error'] = true;
-                        $response = sendSms($params);
+                        //$response = sendSms($params);
 
-                        dd($response);
+                        //dd($response);
 
-                        if (!$response['error']) {
+                        //if (!$response['error']) {
                             
                             //create new outbox
-                            $smsoutbox = new SmsOutbox();
+                            /*$smsoutbox = new SmsOutbox();
                             $smsoutbox->message = $request->sms_message;
                             $smsoutbox->short_message = reducelength($request->sms_message,45);
                             $smsoutbox->user_id = $x;
@@ -470,13 +457,21 @@ class SmsOutboxController extends Controller
                             $smsoutbox->src_host = getHost();
                             $smsoutbox->created_by = $user_id;
                             $smsoutbox->updated_by = $user_id;
-                            $smsoutbox->save();
+                            $smsoutbox->save();*/
 
-                        } else {
+                            //start create new outbox
+                            $message = $request->sms_message;
+                            $phone = $user->phone_number;
+                            $company_id = $request->company_id;
+                            $sms_user_name = $usr;
+                            createSmsOutbox($message, $phone, $company_id, $sms_user_name);
+                            //end create new outbox
+
+                        /*} else {
 
                             $errors[] = $response->message;
 
-                        }
+                        }*/
 
                     } else {
                         

@@ -3,7 +3,8 @@
 namespace App\Entities;
 
 use App\Entities\Company;
-use App\Entities\User;
+use App\User;
+use App\Events\SmsOutboxCreated;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,7 +14,14 @@ class SmsOutbox extends Model
      * The attributes that are mass assignable
      */
     protected $fillable = [
-        'message', 'phone_number', 'user_id', 'user_agent', 'src_ip', 'src_host', 'status_id', 'sms_type_id', 'created_by', 'updated_by'
+        'message', 'phone_number', 'sms_user_name', 'user_id', 'user_agent', 'src_ip', 'src_host', 'status_id', 'sms_type_id', 'company_id', 'schedule_sms_outbox_id', 'group_id', 'delay', 'created_by', 'updated_by', 'created_at', 'updated_at'
+    ];
+
+    /**
+     * Fire events on the model, oncreated, onupdated
+     */
+    protected $events = [
+        'created' => SmsOutboxCreated::class
     ];
 
     /*one to many relationship*/
@@ -38,6 +46,34 @@ class SmsOutbox extends Model
     public function scheduleSmsOutbox()
     {
         return $this->belongsTo(ScheduleSmsOutbox::class);
+    }
+
+
+    /**
+     * @param array $attributes
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public static function create(array $attributes = [])
+    {
+
+        $attributes['phone_number'] = getDatabasePhoneNumber($attributes['phone_number']);
+        //$attributes['short_message'] = reducelength($attributes['message'],45);
+        
+        //add user env
+        $agent = new \Jenssegers\Agent\Agent;
+
+        $attributes['user_agent'] = serialize($agent);
+        $attributes['browser'] = $agent->browser();
+        $attributes['browser_version'] = $agent->version($agent->browser());
+        $attributes['os'] = $agent->platform();
+        $attributes['device'] = $agent->device();
+        $attributes['src_ip'] = getIp();
+        //end add user env
+
+        $model = static::query()->create($attributes);
+
+        return $model;
+
     }
 
 

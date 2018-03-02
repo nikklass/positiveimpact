@@ -3,27 +3,24 @@
 namespace App\Transformers\Users;
 
 use App\Entities\City;
-use App\Entities\Constituency;
 use App\Entities\Country;
 use App\Entities\State;
+use App\Transformers\Company\CompanyTransformer;
+use App\Transformers\Image\ImageTransformer;
 use App\User;
-use App\Entities\Ward;
-use App\Transformers\Cities\CityTransformer;
-use App\Transformers\Countries\CountryTransformer;
-use App\Transformers\States\StateTransformer;
 use League\Fractal\TransformerAbstract;
 
 /**
- * Class UserTransformer.
+ * Class UserTransformer
+ * @package App\Transformers
  */
 class UserTransformer extends TransformerAbstract
 {
-    
+
     /**
      * @var array
      */
-    //protected $defaultIncludes = ['country', 'state', 'city', 'roles'];
-    protected $defaultIncludes = ['roles'];
+    protected $defaultIncludes = ['roles', 'companies', 'images'];
 
     /**
      * @param User $model
@@ -43,42 +40,45 @@ class UserTransformer extends TransformerAbstract
         $city = $this->getCity($model->city_id);
         if ($city) { $city_name = $city->name; } else { $city_name = null; }
 
-        $constituency = $this->getConstituency($model->constituency_id);
-        if ($constituency) { 
-            $constituency_name = $constituency->name; } else { $constituency_name = null; }
-
-        $ward = $this->getWard($model->ward_id);
-        if ($ward) { $ward_name = $ward->name; } else { $ward_name = null; }
-
         if ($model->dob) { $dob = $model->dob->toIso8601String(); } else { $dob = null; }
+        if ($model->deleted_at) { $deleted_at = $model->deleted_at->toIso8601String(); } else { $deleted_at = null; }
+        if ($model->created_at) { $created_at = $model->created_at->toIso8601String(); } else { $created_at = null; }
+        if ($model->updated_at) { $updated_at = $model->updated_at->toIso8601String(); } else { $updated_at = null; }
 
         return [
+            
             'id' => $model->uuid,
             'user_id' => $model->id,
             'first_name' => $model->first_name,
             'last_name' => $model->last_name,
-            'gender' => $model->gender,
-            'gender_name' => $gender,
             'email' => $model->email,
-            'phone' => $model->phone,
-            'preferred_amount_fmt' => format_num($model->preferred_amount, 0),
-            'preferred_amount' => $model->preferred_amount,
             'phone_country' => $model->phone_country,
             'phone_country_name' => $country_name,
+            'active' => $model->active,
+            'status_id' => $model->status_id,
+            'status' => $model->status()->first(['name']),
+            'phone' => $model->phone,
             'state_id' => $model->state_id,
             'state' => $state_name,
             'city_id' => $model->city_id,
             'city' => $city_name,
-            'constituency_id' => $model->constituency_id,
-            'constituency' => $constituency_name,
-            'ward_id' => $model->ward_id,
-            'ward' => $ward_name,
-            'dob_updated' => $model->dob_updated,
-            'created_at' => $model->created_at->toIso8601String(),
+            'gender' => $model->gender,
+            'gender_name' => $gender,
             'dob' => $dob,
-            'updated_at' => $model->updated_at->toIso8601String()
-        ];
+            'dob_updated' => $model->dob_updated,
+            'creator_id' => $model->created_by,
+            'updater_id' => $model->updated_by,
+            'deleter_id' => $model->deleted_by,
+            'creator' => $model->creator()->first(['id', 'first_name', 'last_name']),
+            'updater' => $model->updater()->first(['id', 'first_name', 'last_name']),
+            'deleter' => $model->deleter()->first(['id', 'first_name', 'last_name']),
+            'created_at' => $created_at,
+            'updated_at' => $updated_at,
+            'deleted_at' => $deleted_at
 
+
+
+        ];
     }
 
     /**
@@ -88,6 +88,16 @@ class UserTransformer extends TransformerAbstract
     public function includeRoles(User $model)
     {
         return $this->collection($model->roles, new RoleTransformer());
+    }
+
+    public function includeCompanies(User $model)
+    {
+        return $this->collection($model->companies, new CompanyTransformer());
+    }
+
+    public function includeImages(User $model)
+    {
+        return $this->collection($model->images, new ImageTransformer());
     }
 
     /**
@@ -115,24 +125,6 @@ class UserTransformer extends TransformerAbstract
     {
         if ($city_id) {
             return City::find($city_id);
-        } else {
-            return null;
-        }
-    }
-
-    public function getConstituency($constituency_id)
-    {
-        if ($constituency_id) {
-            return Constituency::find($constituency_id);
-        } else {
-            return null;
-        }
-    }
-
-    public function getWard($ward_id)
-    {
-        if ($ward_id) {
-            return Ward::find($ward_id);
         } else {
             return null;
         }

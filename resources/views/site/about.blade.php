@@ -48,7 +48,7 @@
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="video-gallery">
-                        <img src="images/cause/3.jpg" alt="ICT Development">
+                        <img src="site/images/cause/3.jpg" alt="ICT Development">
 
                     </div>
                 </div>
@@ -65,24 +65,24 @@
                 <div class="title"><p>Cupidatat non proident sunt in culpa qui officia deserunt mollit</p></div>
             </div>
             <ul class="sponsors-slider">
-                <li><a href="#"><figure><img src="images/sponsors/1.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/2.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/3.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/4.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/5.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/6.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/1.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/2.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/3.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/4.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/5.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/6.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/1.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/2.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/3.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/4.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/5.png" alt=""></figure></a></li>
-                <li><a href="#"><figure><img src="images/sponsors/6.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/1.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/2.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/3.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/4.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/5.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/6.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/1.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/2.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/3.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/4.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/5.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/6.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/1.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/2.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/3.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/4.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/5.png" alt=""></figure></a></li>
+                <li><a href="#"><figure><img src="site/images/sponsors/6.png" alt=""></figure></a></li>
             </ul>
         </div>
     </section> -->
@@ -99,7 +99,7 @@
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="single-item">
                         <div class="img-holder">
-                            <figure><img src="images/team/rose.jpg" alt=""></figure>
+                            <figure><img src="site/images/team/rose.jpg" alt=""></figure>
                             <div class="overlay">
                                 <!-- <div class="box">
                                     <div class="content">
@@ -123,7 +123,7 @@
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <!-- <div class="single-item">
                         <div class="img-holder">
-                            <figure><img src="images/team/2.jpg" alt=""></figure>
+                            <figure><img src="site/images/team/2.jpg" alt=""></figure>
                             <div class="overlay">
                                 <div class="box">
                                     <div class="content">
@@ -148,7 +148,7 @@
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <!-- <div class="single-item">
                         <div class="img-holder">
-                            <figure><img src="images/team/3.jpg" alt=""></figure>
+                            <figure><img src="site/images/team/3.jpg" alt=""></figure>
                             <div class="overlay">
                                 <div class="box">
                                     <div class="content">
@@ -173,7 +173,7 @@
                 <div class="col-md-3 col-sm-6 col-xs-12">
                     <!-- <div class="single-item">
                         <div class="img-holder">
-                            <figure><img src="images/team/4.jpg" alt=""></figure>
+                            <figure><img src="site/images/team/4.jpg" alt=""></figure>
                             <div class="overlay">
                                 <div class="box">
                                     <div class="content">

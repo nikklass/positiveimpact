@@ -1,2 +1,0 @@
-## LNG Group API 
-

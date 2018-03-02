@@ -49,6 +49,8 @@ class MpesaPaybillController extends Controller
         $mpesapaybill = new MpesaPaybill();
         $mpesapaybill->paybill_number = $request->paybill_number;
         $mpesapaybill->name = $request->name;
+        $mpesapaybill->type = $request->type;
+        $mpesapaybill->till_number = $request->till_number;
         $mpesapaybill->company_id = $request->company_id;
         $mpesapaybill->description = $request->description;
         $mpesapaybill->company_branch_id = $request->company_branch_id;
@@ -92,12 +94,15 @@ class MpesaPaybillController extends Controller
         $this->validate($request, [
             'paybill_number' => 'required|digits:6|integer|unique:mpesa_paybills,paybill_number,'.$id,
             'company_id' => 'required|integer',
+            'type' => 'required',
             'description' => 'sometimes|max:255'
         ]);
 
         $mpesapaybill = MpesaPaybill::findOrFail($id);
         $mpesapaybill->paybill_number = $request->paybill_number;
+        $mpesapaybill->till_number = $request->till_number;
         $mpesapaybill->name = $request->name;
+        $mpesapaybill->type = $request->type;
         $mpesapaybill->company_id = $request->company_id;
         $mpesapaybill->company_branch_id = $request->company_branch_id;
         $mpesapaybill->description = $request->description;

@@ -7,9 +7,9 @@ use Laratrust\LaratrustPermission;
 
 class Permission extends LaratrustPermission
 {
-	protected $fillable = [
-	   'name', 'display_name', 'description',
-	];
+	/*protected $fillable = [
+	   'name', 'uuid', 'display_name', 'description',
+	];*/
 
 
 	//start convert dates to local dates

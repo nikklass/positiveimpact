@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers\Api\Ussd;
 
-use App\Entities\Company;
-use App\Entities\Group;
-use App\User;
-use App\Entities\UssdRegistration;
+use App\Company;
+use App\Group;
 use App\Http\Controllers\BaseController;
+use App\SmsOutbox;
 use App\Transformers\Ussd\UssdRegistrationTransformer;
+use App\User;
+use App\UssdEvent;
+use App\UssdPayment;
+use App\UssdRegistration;
 use Carbon\Carbon;
 use Dingo\Api\Exception\StoreResourceFailedException;
-use Dingo\Api\Routing\Helpers;
 use Excel;
+use Illuminate\Database\Eloquent\hydrate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 use Session;
 
@@ -21,7 +25,7 @@ class ApiUssdRegistrationController extends BaseController
 {
     
     /**
-     * @var ChatChannel
+     * @var 
      */
     protected $model;
 
@@ -33,22 +37,12 @@ class ApiUssdRegistrationController extends BaseController
     public function __construct(UssdRegistration $model)
     {
         $this->model = $model;
-        //$this->middleware('permission:Update chatchannels')->only('update');
-        //$this->middleware('permission:Delete chatchannels')->only('destroy');
     }
     /**
      * Display a listing of the resource.
      */
     public function index(Request $request)
     {
-
-        /*start cache settings*/
-        $url = request()->url();
-        $params = request()->query();
-
-        $fullUrl = getFullCacheUrl($url, $params);
-        $minutes = getCacheDuration('low'); 
-        /*end cache settings*/
 
         //get logged in user
         $user = auth()->user();
@@ -117,10 +111,98 @@ class ApiUssdRegistrationController extends BaseController
         }
         //end filter request
 
-        //return cached data or cache if cached data not exists
-        return Cache::remember($fullUrl, $minutes, function () use ($data) {
-            return $data;
-        });
+        return $data;
+
+    }
+
+    //confirm registration
+    public function confirm(Request $request)
+    {
+
+        //$ussdregistration = DB::table('ussd_registrations');
+        $ussdregistration = new UssdRegistration();
+
+        //filter request
+        $id = $request->id;
+        $phone_number = $request->phone_number;
+        $tsc_no = $request->tsc_no;
+        $ussd_event_id = $request->ussd_event_id;
+        
+        //get data
+        if ($id) { 
+            $ussdregistration = $ussdregistration->where('id', $id); 
+        }
+
+        if ($phone_number && $ussd_event_id) { 
+            //format the phone number
+            $phone_number = formatPhoneNumber($phone_number);
+            $ussdregistration = $ussdregistration->where('phone', $phone_number)
+                                                 ->where('ussd_event_id', $ussd_event_id); 
+        }
+
+        if ($tsc_no && $ussd_event_id) { 
+            $ussdregistration = $ussdregistration->where('tsc_no', $tsc_no)
+                                                 ->where('ussd_event_id', $ussd_event_id); 
+        }
+
+        $ussdregistration = $ussdregistration->first();
+
+        $message = "No registration exists.";
+
+        if (count($ussdregistration)) {
+            
+            //event
+            $ussd_event_data = UssdEvent::find($ussdregistration->ussd_event_id);
+            $event_name = $ussd_event_data->name;
+            $company_id = $ussd_event_data->company_id;
+            $company_name = $ussd_event_data->company->name;
+            $event_cost = $ussd_event_data->amount;
+            //company
+            $payment_data = UssdPayment::where('phone', $phone_number)
+                            ->where('ussd_event_id', $ussd_event_id)
+                            ->first();
+
+            if ($payment_data) {
+                $amount_paid = $payment_data->amount;
+            } else {
+                $amount_paid = 0;
+            }
+
+            if ($ussdregistration->registered=='no') {
+
+                //get account balance
+                $balance = $event_cost - $amount_paid;
+                $message = "Account not yet activated. ";
+                if ($amount_paid  > 0) {
+                    $message .= "You have paid Ksh $amount_paid. ";
+                }
+                $message .= "Please pay balance of Ksh $balance to activate.";
+
+            } else {
+
+                $message = "Registered.";
+                $message .= " ID: " . $ussdregistration->id;
+                $message .= ", Name: " . $ussdregistration->name;
+                $message .= ", Phone: " . $ussdregistration->phone;
+                $message .= ", Event: " . $event_name;
+                $message .= ", Amount Paid: " . $amount_paid;
+                $message .= ",\n" . $company_name;
+                
+            }
+
+        }
+
+        //get company sms details
+        $sms_user_name = $ussdregistration->ussdevent->company->sms_user_name;
+        $company_id = $ussdregistration->ussdevent->company->id;
+        $phone = $ussdregistration->phone;
+        //end get company details
+
+        //start send an sms back with message
+        createSmsOutbox($message, $phone, $company_id, $sms_user_name);
+        //end send an sms back with message
+
+        return ['message' => $message];
 
     }
 
@@ -129,37 +211,94 @@ class ApiUssdRegistrationController extends BaseController
      */
     public function store(Request $request)
     {
-        
-        //$user_id = auth()->user()->id;
-        $user_id = 2;
 
         request()->merge(array(
-                    'user_id' => $user_id,
-                    'updated_by' => $user_id,
                     'phone_country' => 'KE'
                 ));
-        //dd($request);
 
         $rules = [
             'name' => 'required',
             'phone' => 'required|phone:mobile',
             'phone_country' => 'required_with:phone',
-            'tsc_no' => 'required'
+            'tsc_no' => 'required',
+            'ussd_event_id' => 'required',
         ];
 
-        $payload = app('request')->only('name', 'phone', 'phone_country', 'tsc_no');
+        $payload = app('request')->only('name', 'phone', 'phone_country', 'tsc_no', 'ussd_event_id');
 
         $validator = app('validator')->make($payload, $rules);
 
         if ($validator->fails()) {
-            $error_messages = formatValidationErrors($validator->errors());
-            throw new StoreResourceFailedException($error_messages);
+            //$error_messages = $validator->errors();
+            //throw new StoreResourceFailedException($error_messages);
+            $error_message = "An error occured";
+            return $this->response->error($error_message, 503);
         }
+
+        //VALIDATE
+        $phone = getDatabasePhoneNumber($request->phone);
+        $tsc_no = $request->tsc_no;
+        $ussd_event_id = $request->ussd_event_id;
+
+        //start if account with phone and ussd_event_id exists
+        $registration_data = UssdRegistration::where('phone', $phone)
+                             ->where('ussd_event_id', $ussd_event_id)
+                             ->first();
+
+        if ($registration_data) {
+            
+            //get event
+            $name = $registration_data->name;
+            $phone = $registration_data->phone;
+            $company_name = $registration_data->ussdevent->company->name;
+            $company_id = $registration_data->ussdevent->company->id;
+            $ussd_code = $registration_data->ussdevent->company->ussd_code;
+            $sms_user_name = $registration_data->ussdevent->company->sms_user_name;
+
+            $message = sprintf("Dear %s. We already have your records. Dial *533*%s to confirm registration or recommend to a friend!", $name, $ussd_code);
+
+            //user exists, start create new outbox/ sms
+            createSmsOutbox($message, $phone, $company_id, $sms_user_name);
+            //end create new outbox
+
+            //user registration already exists, return status_code = 553
+            return $this->response->item($registration_data, new UssdRegistrationTransformer)->setStatusCode(553);
+        
+        }
+        //end if account with phone and ussd_event_id exists
+
+        //start if account with tsc_no and ussd_event_id exists
+        $tsc_registration_data = UssdRegistration::where('tsc_no', $tsc_no)
+                                 ->where('ussd_event_id', $ussd_event_id)
+                                 ->first();
+
+        if (count($tsc_registration_data)) {
+
+            //get event
+            $name = $tsc_registration_data->name;
+            $phone = $tsc_registration_data->phone;
+            $company_name = $tsc_registration_data->ussdevent->company->name;
+            $company_id = $tsc_registration_data->ussdevent->company->id;
+            $ussd_code = $tsc_registration_data->ussdevent->company->ussd_code;
+            $sms_user_name = $tsc_registration_data->ussdevent->company->sms_user_name;
+
+            $message = sprintf("Dear %s. We already have your records. Dial *533*%s to confirm registration or recommend to a friend!", $name, $ussd_code);
+
+            //user exists, start create new outbox/ sms
+            createSmsOutbox($message, $phone, $company_id, $sms_user_name);
+            //end create new outbox
+
+            //user registration already exists, return status_code = 553
+            return $this->response->item($tsc_registration_data, new UssdRegistrationTransformer)->setStatusCode(553);
+
+        }
+        //end if account with phone and ussd_event_id exists
+        //END VALIDATE
 
         //create item
         $ussd_registration = $this->model->create($request->all());
 
-        return ['message' => 'USSD registration created'];
+        return $this->response->item($ussd_registration, new UssdRegistrationTransformer);
 
     }
 
@@ -170,22 +309,11 @@ class ApiUssdRegistrationController extends BaseController
     public function show($id)
     {
 
-        /*start cache settings*/
-        $url = request()->url();
-        $params = request()->query();
-
-        $fullUrl = getFullCacheUrl($url, $params);
-        $minutes = getCacheDuration(); 
-        /*end cache settings*/
-
         $ussdregistration = $this->model->findOrFail($id);
 
         $data = $this->response->item($ussdregistration, new UssdRegistrationTransformer());
 
-        //return cached data or cache if cached data not exists
-        return Cache::remember($fullUrl, $minutes, function () use ($data) {
-            return $data;
-        });
+        return $data;
 
     }
 

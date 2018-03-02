@@ -4,7 +4,7 @@ namespace App\Entities;
 
 use App\Entities\City;
 use App\Entities\Country;
-use App\Entities\User;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 

@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Entities\Company;
+use App\Entities\Country;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use App\Services\User\UserStore;
+use App\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
 {
@@ -30,26 +35,44 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     public function showRegistrationForm()
     {
-        return view('users.register');
+
+        $countries = Country::where('status_id', '1')->get();
+        //dd($countries);
+        $companies = Company::all();
+        return view('auth.register', compact('companies', 'countries'));
+
     }
 
-    public function showBulkRegistrationForm()
+
+    /**
+     * Override registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request, UserStore $userStore)
     {
-        return view('users.registerbulk');
-    }
+        
+        $this->validate($request, [
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'phone_country' => 'required_with:phone',
+            'phone' => 'required|phone:mobile',
+            'password' => 'required|min:6|confirmed',
+            'company_id' => 'required|integer',
+        ]);
 
+        //create user
+        $user = $userStore->createItem($request->all());
+
+        Session::flash('success', 'User account successfully created. Please confirm your account.');
+        
+        return redirect()->route('confirm');
+
+    }
     
 
 }

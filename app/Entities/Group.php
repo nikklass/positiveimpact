@@ -2,7 +2,8 @@
 
 namespace App\Entities;
 use App\Entities\Company;
-use App\Entities\User;
+use App\Entities\LoanApplication;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,11 @@ class Group extends Model
     public function users()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function loanapplications()
+    {
+        return $this->hasMany(LoanApplication::class);
     }
 
 

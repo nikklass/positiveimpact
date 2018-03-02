@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,27 +15,32 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         Relation::morphMap([
             'image' => 'App\Entities\Image'
         ]);
-
-        view()->composer('site.layouts.partials.sidebarLeft', function($view){
-            $view->with('user', \App\User::getUser());
-        });
-
-        /*view()->composer('site.layouts.partials.footer', function($view){
-            $view->with('site_settings', json_decode(getAllSiteSettings()));
-        });*/
 
         view()->composer('*', function($view){
             $view->with('site_settings', json_decode(getAllSiteSettings()));
         });
 
-        
+        view()->composer('admin.layouts.partials.sidebarLeft', function($view){
+            $view->with('user', \App\User::getUser());
+        });
 
-        /*view()->composer('layouts.partials.footer', function($view){
-            $view->with('site_settings', \App\Entities\SiteSetting::getSiteSettings());
-        });*/
+        //new validtion
+        Validator::extend('uniqueUssdRegistration', function ($attribute, $value, $parameters, $validator) {
+            $count = DB::table('ussd_registrations')->where('phone', $value)
+                                        ->where('ussd_event_id', $parameters[0])
+                                        ->count();
+            return $count === 0;
+        });
+
+        //recaptcha validation
+        Validator::extend(
+          'recaptcha',
+          'App\\Validators\\Recaptcha@validate'
+        );
 
     }
 

@@ -13,25 +13,19 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        
         'App\Events\UserCreated' => [
-            'App\Listeners\SendConfirmationEmail',
-            'App\Listeners\SendConfirmationSms',
-            'App\Listeners\SaveUserArchive',
+            'App\Listeners\SendWelcomeEmail',
+            'App\Listeners\SendConfirmSms',
         ],
-        'App\Events\UserUpdated' => [
-            'App\Listeners\SaveUserUpdatedArchive',
+        'App\Events\SmsOutboxCreated' => [
+            'App\Listeners\SendUserSms',
         ],
-        'App\Events\MessageCreated' => [
-            'App\Listeners\SendReceivedMessageEmail'
+        'App\Events\UssdRegistrationCreated' => [
+            'App\Listeners\SaveUssdRegistrationArchive',
         ],
-        'App\Events\ChatThreadRead' => [
-            'App\Listeners\SaveChatThreadReadState'
+        'App\Events\UssdRegistrationUpdated' => [
+            'App\Listeners\UpdateUssdRegistrationArchive',
         ],
-        'App\Events\ChatMessageCreated' => [
-            'App\Listeners\SendChatMessageCreatedEmail'
-        ]
-        
     ];
 
     /**
@@ -42,6 +36,7 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
+
         //
     }
 }

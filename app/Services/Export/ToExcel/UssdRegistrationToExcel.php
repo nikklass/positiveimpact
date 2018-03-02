@@ -2,11 +2,11 @@
 
 namespace App\Services\Export\ToExcel;
 
-use App\Entities\Company;
-use App\Entities\Group;
-use App\Entities\Loan;
-use App\Entities\User;
-use App\Entities\UssdRegistration;
+use App\Company;
+use App\Group;
+use App\Loan;
+use App\User;
+use App\UssdRegistration;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -90,7 +90,7 @@ class UssdRegistrationToExcel
                 $user_array['mobile'] = $ussdreg->mobile;
                 $user_array['alternate_mobile'] = $ussdreg->alternate_mobile;
                 $user_array['tsc_no'] = $ussdreg->tsc_no;
-                //$user_array['company_id'] = $ussdreg->company_id;
+                $user_array['event'] = $ussdreg->ussdevent->name;
                 $user_array['email'] = $ussdreg->email;
                 $user_array['county'] = $ussdreg->county;
                 $user_array['sub_county'] = $ussdreg->sub_county;
@@ -123,8 +123,8 @@ class UssdRegistrationToExcel
         $start_date = $data->start_date;
         $end_date = $data->end_date;
         $user_id = $data->user_id;
-        $start_at_date = formatDisplayDate($start_date);
-        $end_at_date = formatDisplayDate($end_date);
+        $start_at_date = $start_date;
+        $end_at_date = $end_date;
 
         if ($start_date) {
             //get excel titles
@@ -162,7 +162,7 @@ class UssdRegistrationToExcel
 
             // Define the Excel spreadsheet headers
             $ussdregistrationArray[] = 
-                    ['id', 'name','phone','Alternate Phone', 'TSC No', 'Email', 'County', 'Sub-County', 'Work Place', 'ICT Level', 'Subjects', 'LipaNaMpesa Code', 'Registered',  'created_at'];
+                    ['id', 'name','phone','Alternate Phone', 'TSC No', 'Event', 'Email', 'County', 'Sub-County', 'Work Place', 'ICT Level', 'Subjects', 'LipaNaMpesa Code', 'Registered',  'created_at'];
 
             $columns_number = count($ussdregistrationArray[0]) - 1; //zero based array search
 

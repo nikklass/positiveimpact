@@ -2,11 +2,11 @@
 
 namespace App\Services\Export\ToExcel;
 
-use App\Entities\Deposit;
-use App\Entities\Group;
-use App\Entities\Loan;
-use App\Entities\RoleUser;
-use App\Entities\User;
+use App\Deposit;
+use App\Group;
+use App\Loan;
+use App\RoleUser;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 

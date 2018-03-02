@@ -34,10 +34,6 @@ class ApiCitiesController extends Controller
     public function __construct(City $model)
     {
         $this->model = $model;
-
-        $this->middleware('permission:Create acls')->only('store');
-        $this->middleware('permission:Update acls')->only('update');
-        $this->middleware('permission:Delete acls')->only('destroy');
     }
 
     public function index(Request $request)

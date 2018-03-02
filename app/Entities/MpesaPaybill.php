@@ -3,14 +3,14 @@
 namespace App\Entities;
 
 use App\Entities\Company;
-use App\Entities\User;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 
 class MpesaPaybill extends Model
 {
     protected $fillable = [
-        'name', 'description', 'paybill_number', 'company_branch_id', 'company_id'
+        'name', 'description', 'paybill_number', 'till_number', 'type', 'company_branch_id', 'company_id'
     ];
 
     /*one to many relationship*/

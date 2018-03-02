@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Entities\Comment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\ReCaptchataTestFormRequest;
 use Session;
 
 class CommentController extends Controller
@@ -30,7 +31,7 @@ class CommentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ReCaptchataTestFormRequest $request)
     { 
 
         //dd($request);
@@ -40,7 +41,6 @@ class CommentController extends Controller
             'email' => 'required|email',
             'phone' => 'required',
             'message' => 'required',
-            //'g-recaptcha-response' => 'required|captcha',
         ]);
 
         //create item

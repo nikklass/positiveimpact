@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\States;
 
 use App\Entities\Country;
 use App\Entities\State;
-use App\Http\Controllers\BaseController;
+use App\Http\Controllers\Controller;
 use App\Transformers\States\StateTransformer;
 use Carbon\Carbon;
 use Dingo\Api\Exception\StoreResourceFailedException;
@@ -18,8 +18,9 @@ use Illuminate\Support\Facades\DB;
  * Class ApiStatesController.
  *
  */
-class ApiStatesController extends BaseController
+class ApiStatesController extends Controller
 {
+    use Helpers;
 
     /**
      * @var state
@@ -34,10 +35,6 @@ class ApiStatesController extends BaseController
     public function __construct(State $model)
     {
         $this->model = $model;
-
-        $this->middleware('permission:Create acls')->only('store');
-        $this->middleware('permission:Update acls')->only('update');
-        $this->middleware('permission:Delete acls')->only('destroy');
     }
 
     public function index(Request $request)

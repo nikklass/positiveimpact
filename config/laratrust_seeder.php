@@ -6,53 +6,60 @@ return [
         
         'superadministrator' => [
             
-            'users' => 'c,r,u,d',
+            'user' => 'c,r,u,d',
             'acl' => 'c,r,u,d',
             'profile' => 'r,u',
-
             'sms' => 'c,r,u,d',
             'scheduled_sms' => 'c,r,u,d',
-            'groups' => 'c,r,u,d',
-            'companies' => 'c,r,u,d',
-            'paybill' => 'c,r,u,d'
+            'group' => 'c,r,u,d',
+            'company' => 'c,r,u,d',
+            'paybill' => 'c,r,u,d',
+            'loan' => 'c,r,u,d',
+            'account' => 'c,r,u,d',
+            'deposit_account' => 'c,r,u,d',
+            'loan_account' => 'c,r,u,d',
+            'loan_repayment' => 'c,r,u,d',
+            'loan_application' => 'c,r,u,d',
+            'account' => 'c,r,u,d'
 
         ],  
 
         'administrator' => [
             
-            'users' => 'c,r,u,d',
+            /*'user' => 'c,r,u,d',
             'profile' => 'r,u',
-
             'sms' => 'c,r,u,d',
             'scheduled_sms' => 'c,r,u,d',
-            'groups' => 'c,r,u,d',
-            'companies' => 'c,r,u,d',
-            'paybill' => 'r'
+            'group' => 'c,r,u,d',
+            'company' => 'c,r,u,d',
+            'paybill' => 'r',
+            'loan' => 'r,u',
+            'loan_repayment' => 'c,r,u,d',
+            'loan_application' => 'c,r,u,d',
+            'account' => 'c,r,u,d'*/
 
         ],
 
         'companyadministrator' => [
             
-            'users' => 'c,r,u,d',
+            /*'user' => 'c,r,u,d',
             'profile' => 'r,u',
-
-            'sms' => 'c,r,u,d',
+            'sms' => 'c,r',
             'scheduled_sms' => 'c,r,u,d',
-            'groups' => 'c,r,u,d',
-            'paybill' => 'r'
+            'group' => 'c,r,u,d',
+            'company' => 'r,u',
+            'paybill' => 'r',
+            'loan' => 'r,u'*/
 
         ],
 
-        'manager' => [
+        'companymanager' => [
 
-            'profile' => 'r,u',
-            'paybill' => 'r'
-
-        ],
-
-        'supervisor' => [
-
-            'profile' => 'r,u'
+            /*'profile' => 'r,u',
+            'paybill' => 'r',
+            'sms' => 'c,r',
+            'scheduled_sms' => 'c,r,u,d',
+            'group' => 'c,r,u,d',*/
 
         ]
 

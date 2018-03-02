@@ -2,7 +2,6 @@
 
 namespace App\Entities;
 
-use App\Entities\Post;
 use Illuminate\Database\Eloquent\Model;
 
 class Video extends Model

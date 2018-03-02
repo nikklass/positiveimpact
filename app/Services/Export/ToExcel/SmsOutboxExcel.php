@@ -2,9 +2,9 @@
 
 namespace App\Services\Export\ToExcel;
 
-use App\Entities\Group;
-use App\Entities\Loan;
-use App\Entities\User;
+use App\Group;
+use App\Loan;
+use App\User;
 use Illuminate\Support\Facades\DB;
 
 class SmsOutboxExcel 

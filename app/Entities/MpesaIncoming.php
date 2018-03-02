@@ -4,7 +4,7 @@ namespace App\Entities;
 
 
 use App\Entities\Company;
-use App\Entities\User;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class MpesaIncoming

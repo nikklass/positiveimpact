@@ -3,6 +3,7 @@
 namespace App\Transformers\Ussd;
 
 use App\Company;
+use App\Transformers\Ussd\UssdEventTransformer;
 use App\UssdRegistration;
 use League\Fractal\TransformerAbstract;
 
@@ -13,21 +14,14 @@ use League\Fractal\TransformerAbstract;
 class UssdRegistrationTransformer extends TransformerAbstract
 {
 
+    protected $defaultIncludes = ['ussdevent'];
+
     /**
-     * @param MpesaIncoming $model
+     * @param UssdRegistration $model
      * @return array
      */
     public function transform(UssdRegistration $model)
     {
-        
-        $company = $this->getCompany($model->company_id);
-        if ($company) { 
-          $company_id = $company->id;
-          $company_name = $company->name; 
-        } else { 
-          $company_id = null; 
-          $company_name = null; 
-        }
 
         return [
 
@@ -44,20 +38,16 @@ class UssdRegistrationTransformer extends TransformerAbstract
           'subjects' => $model->subjects,
           'lipanampesacode' => $model->lipanampesacode,
           'registered' => $model->registered,
-          'created_at' => $model->created_at,
-          'company_id' => $model->company_id,
-          'company_name' => $model->company_name
-
+          'created_at' => formatFriendlyDate($model->created_at),
+          'created_at_raw' => $model->created_at,
+          'company_id' => $model->company_id
         ];
     }
 
-    public function getCompany($company_id)
+
+    public function includeUssdevent(UssdRegistration $model)
     {
-        if ($company_id) {
-            return Company::find($company_id);
-        } else {
-            return null;
-        }
+        return $this->item($model->ussdevent, new UssdEventTransformer());
     }
 
 }

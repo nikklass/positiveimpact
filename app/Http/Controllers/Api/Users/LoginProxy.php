@@ -57,7 +57,7 @@ class LoginProxy
             
             //if user is not activated, show message
             if (!$user->active) {
-                throw new StoreResourceFailedException("User account not activated. Please activate account to proceed.");
+                throw new StoreResourceFailedException("User account not confirmed/ activated. Please confirm/ activate your account to proceed.");
             }
 
             return $this->proxy('password', [
@@ -103,8 +103,6 @@ class LoginProxy
         //dd($data);
 
         $response = $this->apiConsumer->post('/oauth/token', $data);
-
-        //dd($response);
 
         if (!$response->isSuccessful()) {
             throw new StoreResourceFailedException("Wrong login credentials");

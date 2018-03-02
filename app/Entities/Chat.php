@@ -2,7 +2,7 @@
 
 namespace App\Entities;
 
-use App\Entities\User;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Chat extends Model

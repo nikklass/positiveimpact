@@ -1,53 +1,67 @@
-@extends('site.layouts.master')
+@extends('layouts.errorMaster')
 
 @section('title')
-
-    Not Found
-
+    Page Not Found
 @endsection
-
 
 @section('content')
-
-
     
-    <!-- error section -->
-    <section class="error-section error-page text-center">
-        <div class="container">
-            <div class="row">
-                <div class="error-title">4<i class="fa fa-frown-o" aria-hidden="true"></i>4</div>
-                <div class="title">Oops! Page Not Found!</div>
-                <div class="search-box">
-                    
-                    <a href="{{ route('site.home') }}" class="btn-one">Go to home</a>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- error section end -->
+    <div id="app">
 
-         
+        <div class="container-fluid">
+           <!-- Row -->
+           <div class="table-struct full-width full-height">
+              <div class="table-cell vertical-align-middle auth-form-wrap">
+                 <div class="auth-form  ml-auto mr-auto no-float">
+                    <div class="row">
+                       <div class="col-sm-12 col-xs-12">
+                          
+                          <div class="panel panel-default card-view">
+                             
+                             <div class="panel-wrapper collapse in">
+                                
+                                <div class="panel-body">               
 
-@endsection  
+                                   <div class="mb-30">
+                                      <h3 class="text-center txt-dark mb-10">
+                                        <i class="zmdi zmdi-alert-triangle mr-20 text-warning"></i>
+                                         Page Not Found
+                                      </h3>
+                                   </div>   
 
+                                   <hr>
 
+                                   <div class="text-center">
+                                      
+                                      <p>
+                                          <code>Click below to proceed</code>
+                                      </p>
+                                      <br/>
+                                      <br/>
+                                      <p>
+                                          <a href="{{ route('home') }}"
+                                              type="button" 
+                                              class="btn btn-success btn-outline">
+                                              Continue
+                                          </a>
+                                      </p>
 
-@section('page_scripts')
+                                   </div>
 
-    <script src="./js/html5lightbox/html5lightbox.js"></script>
+                                </div>
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRvBPo3-t31YFk588DpMYS6EqKf-oGBSI"></script>
-    <script src="./js/map-script.js"></script>
+                             </div>
 
-    <script src="./js/gmaps.js"></script>
-    <script src="./js/map-helper.js"></script>
+                          </div>   
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <!-- /Row -->  
+        
+        </div>  
 
-@endsection 
-
-
-@section('page_includes')
-
-    @include('site.layouts.donatePopup') 
+    </div>
 
 @endsection
-

@@ -1,29 +1,64 @@
 <?php
 
 namespace App\Entities;
-
-use App\Entities\Club;
+use App\Entities\Charge;
+use App\Entities\Company;
+use App\Entities\Currency;
+use App\Entities\DepositAccount;
+use App\Entities\LoanApplication;
 use App\Entities\Status;
-use App\Entities\User;
+use App\User;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * Class Product.
- */
 class Product extends Model
 {
 
-    /**
-     * The attributes that are mass assignable.
-     */
+    use SoftDeletes; 
+
+    protected $dates = ['deleted_at', 'start_at', 'end_at'];
+
     protected $fillable = [
-        'name', 'description', 'club_id', 'expiry_date', 'start_date', 'end_date', 'offer_day', 'offer_frequency', 'offer_type', 'num_products', 'offer_expiry_method', 'num_sales', 'max_sales', 'status_id', 'permalink', 'expiry_email', 'min_age', 'max_age', 'created_by', 'updated_by'
+          'id', 'product_cd', 'name', 'currency_id', 'status_id', 'start_at', 'end_at', 'created_by', 'updated_by', 'deleted_by', 'created_at', 'updated_at', 'deleted_at'
     ];
 
+    /*one to many relationship*/
+    public function accounts()
+    {
+        return $this->hasMany(Account::class);
+    }
 
-    /*relationships*/
+    public function depositaccounts()
+    {
+        return $this->hasMany(DepositAccount::class);
+    }
+
+    public function loanapplications()
+    {
+        return $this->hasMany(LoanApplication::class);
+    }
+
+    public function companies()
+    {
+        return $this->belongsToMany(Company::class);
+    }
+
+    public function charges()
+    {
+        return $this->belongsToMany(Charge::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+
+    public function currency()
+    {
+        return $this->belongsTo(Currency::class);
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by', 'id');
@@ -34,15 +69,37 @@ class Product extends Model
         return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 
-    public function status()
+    public function deleter()
     {
-        return $this->belongsTo(Status::class);
+        return $this->belongsTo(User::class, 'deleted_by', 'id');
     }
 
-    public function club()
+    //start convert dates to local dates
+    public function getCreatedAtAttribute($value)
     {
-        return $this->belongsTo(Club::class);
+        return Carbon::parse($value)->timezone(getLocalTimezone());
     }
+
+    public function getUpdatedAtAttribute($value)
+    {
+        return Carbon::parse($value)->timezone(getLocalTimezone());
+    }
+
+    public function getStartAtAttribute($value)
+    {
+        if ($value) {
+            return Carbon::parse($value)->timezone(getLocalTimezone());
+        }
+    }
+
+    public function getEndAtAttribute($value)
+    {
+        if ($value) {
+            return Carbon::parse($value)->timezone(getLocalTimezone());
+        }
+    }
+    //end convert dates to local dates
+
 
     /**
      * @param array $attributes
@@ -51,58 +108,60 @@ class Product extends Model
     public static function create(array $attributes = [])
     {
 
-        //start error checks
-        if (array_key_exists('offer_frequency', $attributes)) {
-            $offer_frequency = $attributes['offer_frequency'];
-            $offer_day = $attributes['offer_day'];
-            if ($offer_frequency == "recurring-weekly" &&  !$offer_day) {
-                throw new StoreResourceFailedException("Please select offer day");
-            }
+        $user_id = auth()->user()->id;
+
+        $attributes['created_by'] = $user_id;
+        $attributes['updated_by'] = $user_id;
+
+        //start if start_at or end_at exist, format date
+        if (array_key_exists('start_at', $attributes) && ($attributes['start_at'] != null)) {
+            $start_at = $attributes['start_at'];
+            $attributes['start_at'] = Carbon::parse($start_at);
         }
 
-        if (array_key_exists('offer_frequency', $attributes)) {
-            $offer_frequency = $attributes['offer_frequency'];
-            $offer_day = $attributes['offer_day'];
-            if ($offer_frequency == "recurring-weekly" &&  !$offer_day) {
-                throw new StoreResourceFailedException("Please select offer day");
-            }
+        if (array_key_exists('end_at', $attributes) && ($attributes['end_at'] != null)) {
+            $end_at = $attributes['end_at'];
+            $attributes['end_at'] = Carbon::parse($end_at);
         }
-
-        if (($expiry_item_type=="by_sales_radio") && (!$offer_sales)) {
-            
-            $response["message"] = "Please enter maximum drink sales number";
-            $response["error"] = true;
-            $response["ref"] = "none";
-            
-        }
-        //end error checks
-
-        
-        if (array_key_exists('phone', $attributes)) {
-            $phone = getLocalisedPhoneNumber($attributes['phone'], $attributes['phone_country']);
-            $attributes['phone'] = $phone;
-        }
-
-        if (array_key_exists('phone', $attributes)) {
-            $phone = getLocalisedPhoneNumber($attributes['phone'], $attributes['phone_country']);
-            $attributes['phone'] = $phone;
-        }
-
-        //generate confirm code
-        $attributes['confirm_code'] = strtoupper(generateCode(5));
-
-        //add user env
-        $agent = new \Jenssegers\Agent\Agent;
-
-        $attributes['user_agent'] = serialize($agent);
-        $attributes['browser'] = $agent->browser();
-        $attributes['browser_version'] = $agent->version($agent->browser());
-        $attributes['os'] = $agent->platform();
-        $attributes['device'] = $agent->device();
-        $attributes['src_ip'] = getIp();
-        //end add user env
+        //end if start_at or end_at exist, format date
 
         $model = static::query()->create($attributes);
+
+        return $model;
+
+    }
+
+    /**
+     * @param array $attributes
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public static function updatedata($id, array $attributes = [])
+    {
+
+        $user_id = auth()->user()->id;
+
+        $attributes['updated_by'] = $user_id;
+
+        //product data
+        $product = static::query()->findOrFail($id);
+
+        //start if start_at or end_at exist, format date
+        if (array_key_exists('start_at', $attributes) && ($attributes['start_at'] != null)) {
+            $start_at = $attributes['start_at'];
+            $attributes['start_at'] = Carbon::parse($start_at);
+        }
+
+        if (array_key_exists('end_at', $attributes) && ($attributes['end_at'] != null)) {
+            $end_at = $attributes['end_at'];
+            $attributes['end_at'] = Carbon::parse($end_at);
+        } else {
+            $attributes['end_at'] = null;
+        }
+        //end if start_at or end_at exist, format date
+
+        //dd($attributes);
+
+        $model = $product->update($attributes);
 
         return $model;
 

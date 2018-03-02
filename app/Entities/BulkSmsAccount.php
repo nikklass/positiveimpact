@@ -4,7 +4,7 @@ namespace App\Entities;
 
 use App\Entities\Group;
 use App\Entities\SmsOutbox;
-use App\Entities\User;
+use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 

@@ -87,11 +87,11 @@
                         </div>
                     </div>
 
-                    <!-- <div class="row">
+                    <div class="row">
                         <div class="col-md-6 col-md-offset-3 col-sm-6 col-sm-offset-3 col-xs-12">
-                            {!! app('captcha')->display(); !!}
+                            <div class="g-recaptcha" data-sitekey="{{env('NOCAPTCHA_SITEKEY')}}"></div>
                         </div>
-                    </div> -->
+                    </div>
 
                     <button type="submit" class="btn-one" data-loading-text="Please wait...">
                         Send Message
@@ -111,11 +111,11 @@
             id="contact-google-map"
             data-map-lat="{!! $site_settings->company_office_1_latitude !!}"
             data-map-lng="{!! $site_settings->company_office_1_longitude !!}"
-            data-icon-path="images/resources/map-marker.png"
+            data-icon-path="site/images/resources/map-marker.png"
             data-map-title="{!! $site_settings->company_location !!}"
             data-map-zoom="12"
             data-markers='{
-                "marker-1": [{!! $site_settings->company_office_1_latitude !!}, {!! $site_settings->company_office_1_longitude !!}, "<h4>Branch Office</h4><p>{!! $site_settings->company_location !!}</p>","images/resources/map-marker.png"]
+                "marker-1": [{!! $site_settings->company_office_1_latitude !!}, {!! $site_settings->company_office_1_longitude !!}, "<h4>Branch Office</h4><p>{!! $site_settings->company_location !!}</p>","site/images/resources/map-marker.png"]
             }'> 
 
         </div>
@@ -126,16 +126,14 @@
 @endsection  
 
 
-
 @section('page_scripts')
 
-    <script src="./js/html5lightbox/html5lightbox.js"></script>
-
+    <script src="./site/js/html5lightbox/html5lightbox.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRvBPo3-t31YFk588DpMYS6EqKf-oGBSI"></script>
-    <script src="./js/map-script.js"></script>
-
-    <script src="./js/gmaps.js"></script>
-    <script src="./js/map-helper.js"></script>
+    <script src="./site/js/map-script.js"></script>
+    <script src="./site/js/gmaps.js"></script>
+    <script src="./site/js/map-helper.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 
 @endsection 
 

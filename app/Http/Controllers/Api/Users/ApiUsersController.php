@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Api\Users;
 
 use App\Entities\ConfirmCode;
 use App\Http\Controllers\BaseController;
-use App\Role;
+use App\Services\User\UserIndex;
+use App\Services\User\UserStore;
 use App\Transformers\Users\UserTransformer;
 use App\User;
 use Dingo\Api\Exception\StoreResourceFailedException;
-use Dingo\Api\Routing\Helpers;
+use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -26,68 +27,40 @@ class ApiUsersController extends BaseController
 
     /**
      * UsersController constructor.
-     *
      * @param User $model
      */
     public function __construct(User $model)
     {
         $this->model = $model;
-        //$this->middleware('permission:List users')->only('index');
-        //$this->middleware('permission:Create users')->only('store');
-        //$this->middleware('permission:List users')->only('show');
-        //$this->middleware('permission:Update users')->only('update');
-        //$this->middleware('permission:Delete users')->only('destroy');
     }
 
     /**
-     * Returns the Users resource with the roles relation.
-     *
+     * Returns the Users resource with the roles relation
      * @param Request $request
      * @return mixed
      */
-    public function index(Request $request)
+    public function index(Request $request, UserIndex $userIndex)
     {
-        $paginator = $this->model->with('roles.permissions')->paginate($request->get('limit', config('app.pagination_limit')));
-        if ($request->has('limit')) {
-            $paginator->appends('limit', $request->get('limit'));
-        }
-
-        return $this->response->paginator($paginator, new UserTransformer());
-    }
-
-    /**
-     * @param Request $request
-     * @return mixed
-     */
-    public function search(Request $request)
-    {
-
-        //create new user object
-        $users = new User();
-
-        $querydata = $request->querydata;
         
-        //filter results
-        if ($querydata) { 
-            $users = $users
-                ->where('id', '!=', auth()->user()->id)
-                ->where(function ($query) use ($querydata) {
-                    $query->where('first_name', 'like', "%$querydata%")
-                          ->orWhere('last_name', 'like', "%$querydata%"); 
-                });
-                
+        //get the data
+        $data = $userIndex->getUsers($request);
+
+        //are we in report mode?
+        if (!$request->report) {
+
+            $data = $this->response->paginator($data, new UserTransformer());
+
+        } else {
+
+            $data = $data->get();
+            $data = $this->response->collection($data, new UserTransformer());
+
         }
 
-        $users = $users->orderBy('first_name', 'asc');
-
-        $paginator = $users->paginate($request->get('limit', config('app.pagination_limit')));
-        if ($request->has('limit')) {
-            $paginator->appends('limit', $request->get('limit'));
-        }
-
-        return $this->response->paginator($paginator, new UserTransformer());
+        return $data;
 
     }
+
 
     /**
      * @param $id
@@ -107,7 +80,6 @@ class ApiUsersController extends BaseController
         $user = auth()->user();
         return $this->response->item($user, new UserTransformer());
     }
-    
 
     /**
      * confirm an account
@@ -128,7 +100,6 @@ class ApiUsersController extends BaseController
         $validator = app('validator')->make($payload, $rules);
 
         if ($validator->fails()) {
-            $error_messages = formatValidationErrors($validator->errors());
             throw new StoreResourceFailedException($error_messages);
         }
 
@@ -154,29 +125,22 @@ class ApiUsersController extends BaseController
                         }, function ($query) use ($email) {
                             $query->where('users.email', $email);
                         })
-                        /*->join('confirm_codes', function ($join) use ($confirm_code) {
-                            $join->on('users.id', '=', 'confirm_codes.user_id')
-                                 ->where('confirm_codes.status_id', '=', 1)
-                                 ->where('confirm_codes.confirm_code', '=', $confirm_code);
-                        })*/
                         ->first();
-
-        /*dump("<pre>");
-        print_r(DB::getQueryLog());
-        dump("</pre>");*/
 
         if (!$user) {
 
-            $error_message[] = 'User account does not exist.';
+            $error_message['user'] = 'User account does not exist';
             $error_message = json_encode($error_message);
+
             throw new StoreResourceFailedException($error_message);
 
         } else {
 
             if ($user->active == 1) {
 
-                $error_message[] = 'User account is already active.';
+                $error_message['user'] = 'User account is already active';
                 $error_message = json_encode($error_message);
+
                 throw new StoreResourceFailedException($error_message);
 
             } 
@@ -194,8 +158,9 @@ class ApiUsersController extends BaseController
 
             if (!$code_data) {
 
-                $error_message[] = 'Invalid confirmation code.';
+                $error_message['user'] = 'Invalid confirmation code';
                 $error_message = json_encode($error_message);
+
                 throw new StoreResourceFailedException($error_message);
 
             } 
@@ -224,8 +189,14 @@ class ApiUsersController extends BaseController
 
             //print_r(DB::getQueryLog());
 
-            return ['message' => 'Welcome. Your account successfully confirmed.'];
+            //$message = 'Welcome. Your account successfully confirmed.';
 
+            //return ['message' => $message];
+            $user = $this->model->where('phone', $local_phone)
+                                ->where('phone_country', $phone_country)
+                                ->first();
+                                
+            return $this->response->item($user, new UserTransformer)->setStatusCode(200);
 
         }
 
@@ -236,88 +207,33 @@ class ApiUsersController extends BaseController
      * @param Request $request
      * @return mixed
      */
-    public function store(Request $request)
+    public function store(Request $request, UserStore $userStore)
     {
 
         $rules = [
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|min:6|confirmed',
             'phone_country' => 'required_with:phone',
-            'phone' => 'required|phone|unique:users',
+            'phone' => 'required|phone:mobile|unique:users,phone',
+            'email' => 'sometimes|nullable|email|unique:users,email',
+            'password' => 'required|min:8|confirmed',
+            //'company_id' => 'required|integer',
         ];
 
-        $payload = app('request')->only('first_name', 'last_name', 'email', 'phone', 'phone_country', 'password', 'password_confirmation');
-
+        $payload = app('request')->only('first_name', 'last_name', 'phone', 'phone_country', 'email', 'password', 'password_confirmation');
         $validator = app('validator')->make($payload, $rules);
 
         if ($validator->fails()) {
-            $error_messages = formatValidationErrors($validator->errors());
-            throw new StoreResourceFailedException($error_messages);
+            throw new StoreResourceFailedException($validator->errors());
         }
 
-        //create user
-        $user = $this->model->create($request->all());
-
-        //attach user role
-        $role = Role::where('name', 'user')->first();
-
-        //get date
-        $date = getCurrentDate();
-
-        //assign new user default role - user
-        $user->roles()->attach($role, [
-          'created_at' => $date,
-          'updated_at' => $date
-        ]);
-
+        //$user = $this->model->create($request->all());
+        $user = $userStore->createItem($request->all());
+        if ($request->has('roles')) {
+            $user->syncRoles($request['roles']);
+        }
         //return $this->response->created();
-        return ['message' => 'User created. Please confirm your account.'];
-
-    }
-
-
-    /*change password -- cant*/
-    public function changePassword(Request $request, $uuid)
-    {
-        
-        $rules = [
-            'oldpassword' => 'required',
-            'newpassword' => 'required',
-        ];
-        if ($request->method() == 'PATCH') {
-            $rules = [
-                'oldpassword' => 'sometimes|required',
-                'newpassword' => 'sometimes|required',
-            ];
-        }
-
-        $payload = app('request')->only('oldpassword', 'newpassword');
-
-        $validator = app('validator')->make($payload, $rules);
-
-        if ($validator->fails()) {
-            $error_messages = formatValidationErrors($validator->errors());
-            throw new StoreResourceFailedException($error_messages);
-        }
-
-        //DB::enableQueryLog();
-            
-        //find user and save new password
-        $user = $this->model->byUuid($uuid)
-                     //->where('password', bcrypt($request->oldpassword))
-                     ->firstOrFail();
-                     //->first();
-
-        //print_r(DB::getQueryLog());
-
-        //dd($user);
-        $user->password = bcrypt($request->newpassword);
-        $user->save();
-
-        return ['message' => 'Password changed successfully.'];
-
+        return ['message' => 'User created.'];
     }
 
 
@@ -330,113 +246,29 @@ class ApiUsersController extends BaseController
     {
         
         $user = $this->model->byUuid($uuid)->firstOrFail();
+        
         $rules = [
             'first_name' => 'required',
             'last_name' => 'required',
+            'phone' => 'required|phone:KE,mobile',
+            'email' => 'sometimes|nullable|email|unique:users,email,'.$user->id,
         ];
-        if ($request->method() == 'PATCH') {
-            $rules = [
-                'first_name' => 'sometimes|required',
-                'last_name' => 'sometimes|required',
-            ];
-        }
 
-        $payload = app('request')->only('first_name', 'last_name');
-
+        $payload = app('request')->only('first_name', 'last_name', 'phone', 'email');
         $validator = app('validator')->make($payload, $rules);
 
         if ($validator->fails()) {
-            $error_messages = formatValidationErrors($validator->errors());
-            throw new StoreResourceFailedException($error_messages);
+            throw new StoreResourceFailedException($validator->errors());
         }
 
-        // Except these as we don't want to let the users change these fields from this endpoint
-        $user->update($request->except('_token', 'password', 'email', 'phone', 'phone_country'));
-        /*if ($request->has('roles')) {
+        // Except password as we don't want to let the users change a password from this endpoint
+        $user->update($request->except('_token', 'password'));
+        if ($request->has('roles')) {
             $user->syncRoles($request['roles']);
-        }*/
-
+        }
         return $this->response->item($user->fresh(), new UserTransformer());
 
     }
-
-
-    /**
-     * @param Request $request
-     * @param $uuid
-     * @return mixed
-     */
-    public function updateDob(Request $request, $uuid)
-    {
-        
-        $user = $this->model->byUuid($uuid)
-                ->where('dob_updated', '0')
-                ->firstOrFail();
-        $rules = [
-            'dob' => 'required',
-            'dob_updated' => 'required',
-        ];
-        if ($request->method() == 'PATCH') {
-            $rules = [
-                'dob' => 'sometimes|required',
-                'dob_updated' => 'sometimes|required',
-            ];
-        }
-
-        $payload = app('request')->only('dob', 'dob_updated');
-
-        $validator = app('validator')->make($payload, $rules);
-
-        if ($validator->fails()) {
-            $error_messages = formatValidationErrors($validator->errors());
-            throw new StoreResourceFailedException($error_messages);
-        }
-
-        // Except these as we don't want to let the users change these fields from this endpoint
-        $user->update($request->only('dob', 'dob_updated'));
-        //$user->update($request->except('id'));
-
-        return $this->response->item($user->fresh(), new UserTransformer());
-
-    }
-
-
-    /**
-     * @param Request $request
-     * @param $uuid
-     * @return mixed
-     */
-    public function updateLocation(Request $request, $uuid)
-    {
-        
-        $user = $this->model->byUuid($uuid)->firstOrFail();
-        $rules = [
-            'phone_country' => 'required',
-            'state_id' => 'required',
-        ];
-        if ($request->method() == 'PATCH') {
-            $rules = [
-                'phone_country' => 'sometimes|required',
-                'state_id' => 'sometimes|required',
-            ];
-        }
-
-        $payload = app('request')->only('phone_country', 'state_id');
-
-        $validator = app('validator')->make($payload, $rules);
-
-        if ($validator->fails()) {
-            $error_messages = formatValidationErrors($validator->errors());
-            throw new StoreResourceFailedException($error_messages);
-        }
-
-        // Except these as we don't want to let the users change these fields from this endpoint
-        $user->update($request->except('id'));
-
-        return $this->response->item($user->fresh(), new UserTransformer());
-
-    }
-
 
     /**
      * @param Request $request
@@ -447,7 +279,6 @@ class ApiUsersController extends BaseController
     {
         $user = $this->model->byUuid($uuid)->firstOrFail();
         $user->delete();
-
         return $this->response->noContent();
     }
 }

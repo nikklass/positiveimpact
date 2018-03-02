@@ -29,7 +29,7 @@
                             <div class="single-item  wow fadeInUp animated animated animated animated">
                                 <div class="img-box">
                                     <div class="img-holder">
-                                        <figure><a href=""><img src="images/cause/3.jpg" alt=""></a></figure>
+                                        <figure><a href=""><img src="site/images/cause/3.jpg" alt=""></a></figure>
                                     </div>
                                 </div>
                                 <div class="news-content">
@@ -47,7 +47,7 @@
                             <div class="single-item  wow fadeInUp animated animated animated animated">
                                 <div class="img-box">
                                     <div class="img-holder">
-                                        <figure><a href=""><img src="images/cause/3.jpg" alt=""></a></figure>
+                                        <figure><a href=""><img src="site/images/cause/3.jpg" alt=""></a></figure>
                                     </div>
                                 </div>
                                 <div class="news-content">
@@ -64,7 +64,7 @@
                             <div class="single-item  wow fadeInUp animated animated animated animated">
                                 <div class="img-box">
                                     <div class="img-holder">
-                                        <figure><a href=""><img src="images/cause/3.jpg" alt=""></a></figure>
+                                        <figure><a href=""><img src="site/images/cause/3.jpg" alt=""></a></figure>
                                     </div>
                                   
                                 </div>
@@ -82,7 +82,7 @@
                             <div class="single-item  wow fadeInUp animated animated animated animated">
                                 <div class="img-box">
                                     <div class="img-holder">
-                                        <figure><a href=""><img src="images/cause/3.jpg" alt=""></a></figure>
+                                        <figure><a href=""><img src="site/images/cause/3.jpg" alt=""></a></figure>
                                     </div>
                                   
                                 </div>
@@ -129,7 +129,7 @@
                             <div class="sidbar-title"><h4>Latest Posts</h4></div>
                             <div class="single-post">
                                 <div class="img-box">
-                                    <a href="single-blog.html"><figure><img src="images/cause/3ost-1.jpg" alt=""></figure></a>
+                                    <a href="single-blog.html"><figure><img src="site/images/cause/3ost-1.jpg" alt=""></figure></a>
                                 </div>
                                 <h5><a href="single-blog.html">Totam Rem Aperiam Eaque
                                     Ipsa Quae ab Illo.</a></h5>
@@ -137,7 +137,7 @@
                             </div>
                             <div class="single-post">
                                 <div class="img-box">
-                                    <a href="single-blog.html"><figure><img src="images/cause/post-2.jpg" alt=""></figure></a>
+                                    <a href="single-blog.html"><figure><img src="site/images/cause/post-2.jpg" alt=""></figure></a>
                                 </div>
                                 <h5><a href="single-blog.html">Totam Rem Aperiam Eaque
                                     Ipsa Quae ab Illo.</a></h5>
@@ -145,7 +145,7 @@
                             </div>
                             <div class="single-post">
                                 <div class="img-box">
-                                    <a href="single-blog.html"><figure><img src="images/blog/post-3.jpg" alt=""></figure></a>
+                                    <a href="single-blog.html"><figure><img src="site/images/blog/post-3.jpg" alt=""></figure></a>
                                 </div>
                                 <h5><a href="single-blog.html">Totam Rem Aperiam Eaque
                                     Ipsa Quae ab Illo.</a></h5>
@@ -153,7 +153,7 @@
                             </div>
                             <div class="single-post">
                                 <div class="img-box">
-                                    <a href="single-blog.html"><figure><img src="images/blog/post-4.jpg" alt=""></figure></a>
+                                    <a href="single-blog.html"><figure><img src="site/images/blog/post-4.jpg" alt=""></figure></a>
                                 </div>
                                 <h5><a href="single-blog.html">Totam Rem Aperiam Eaque
                                     Ipsa Quae ab Illo.</a></h5>

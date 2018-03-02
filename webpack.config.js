@@ -167,8 +167,7 @@ let rules = [
                 options: {
                     name: path => {
                         if (! /node_modules|bower_components/.test(path)) {
-                            //return 'images/[name].[ext]?[hash]';
-                            return 'images/[name].[ext]';
+                            return 'images/[name].[ext]?[hash]';
                         }
 
                         return 'images/vendor/' + path
@@ -193,8 +192,7 @@ let rules = [
         options: {
             name: path => {
                 if (! /node_modules|bower_components/.test(path)) {
-                    //return 'fonts/[name].[ext]?[hash]';
-                    return 'fonts/[name].[ext]';
+                    return 'fonts/[name].[ext]?[hash]';
                 }
 
                 return 'fonts/vendor/' + path

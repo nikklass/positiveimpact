@@ -2,8 +2,8 @@
 
 namespace App\Services\User;
 
-use App\Entities\TempTable;
-use App\Entities\User;
+use App\TempTable;
+use App\User;
 use Illuminate\Support\Facades\DB;
 use Webpatser\Uuid\Uuid;
 
